@@ -1,5 +1,5 @@
 # prm
-### A minimal project manager for the terminal
+A minimal project manager for the terminal.
 
 ## What?
 This program basically lets you CRUD projects. Upon activation, each projects runs its associated start-script; on deactivation, it runs the project stop-script.
@@ -36,7 +36,8 @@ When you deactivate your project, the program cd-s to the path you were original
 ## Why?
 I found myself missing project management features (like those seen in text editors and IDEs) on the terminal.
 
-Usage (from help option):
+## Usage
+From help option:
 
 ```bash
 Usage: prm.sh [options] ...
