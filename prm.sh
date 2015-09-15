@@ -14,12 +14,12 @@ VERSION=0.0.1
 
 DIR=$HOME/.prm
 
-set -e
-function cleanup {
-  #STOP
-  exit
-}
-trap cleanup EXIT
+#set -e
+#function cleanup {
+#  #STOP
+#  exit
+#}
+#$trap cleanup # exit
 
 if [ ! -d "$DIR" ]; then
     mkdir -p "$DIR"
@@ -35,7 +35,7 @@ case "$1" in
             $EDITOR $DIR/$2/start.sh && $EDITOR $DIR/$2/stop.sh
         else
             echo "No name given"
-            exit
+            # exit
         fi
         ;;
     edit)
@@ -45,11 +45,11 @@ case "$1" in
                 $EDITOR $DIR/$2/start.sh && $EDITOR $DIR/$2/stop.sh
             else
                 echo "No such project"
-                exit
+                # exit
             fi
         else
             echo "No name given"
-            exit
+            # exit
         fi
         ;;
     list)
@@ -70,18 +70,18 @@ case "$1" in
                 echo "Removed $2"
             else
                 echo "No such project"
-                exit
+                # exit
             fi
         else
             echo "No name given"
-            exit
+            # exit
         fi
         ;;
     start)
         # Start project
         if [[ $2 ]]; then
             if [[ -e $DIR/active.d ]]; then
-                bash $DIR/$(cat $DIR/active.d)/stop.sh
+                . $DIR/$(cat $DIR/active.d)/stop.sh
             fi
             if [[ ! -e $DIR/path.d ]]; then
                  pwd > $DIR/path.d
@@ -89,27 +89,27 @@ case "$1" in
             echo $2 > $DIR/active.d
             if [[ -d $DIR/$2 ]]; then
                 echo "Starting project $2"
-                bash $DIR/$2/start.sh
+                . $DIR/$2/start.sh
             else
                 echo "No such project"
-                exit
+                # exit
             fi
         else
             echo "No name given"
-            exit
+            # exit
         fi
         ;;
     stop)
         # Stop project
         if [[ -e $DIR/active.d ]]; then
-            bash $DIR/$(cat $DIR/active.d)/stop.sh
+            . $DIR/$(cat $DIR/active.d)/stop.sh
             echo "Stopping project $(cat $DIR/active.d)"
             rm $DIR/active.d
             cd $(cat $DIR/path.d)
             rm $DIR/path.d
         else
             echo "No active project"
-            exit
+            # exit
         fi
         ;;
     -h|--help)
@@ -126,18 +126,21 @@ case "$1" in
         echo "  -v --version             Display version info."
         echo ""
         echo "Please report bugs to at https://github.com/eivind88/prm"
-        exit
+        echo ""
+        echo "Remember that prm MUST be sourced - not run in a subshell."
+        echo "I.e. '. ./prm'"
+        # exit
         ;;
     -v|--version)
         # Version-Screen
         echo "prm $VERSION."
         echo "$COPY"
-        exit
+        # exit
         ;;
     *)
         # Error-Screen
         echo "prm: illegal option -- $1"
         echo "usage: prm [options] ..."
-        exit
+        # exit
         ;;
 esac

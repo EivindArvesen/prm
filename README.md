@@ -4,7 +4,7 @@ A minimal project manager for the terminal.
 ## What?
 This program basically lets you CRUD projects. Upon activation, each projects runs its associated start-script; on deactivation, it runs the project stop-script.
 
-These bash-scripts can be used for e.g. changing directories, setting environment variables, cleanup, etc.
+These bash-scripts can be used for things like changing directories, setting environment variables, cleanup, etc.
 
 ### Example
 One of my project start-script might for instance look something like this:
@@ -24,19 +24,28 @@ The same project's stop-script might look like this:
 
 ```bash
 # deactivate conda env
-source deactivate
+source deactivate hello-world
 
 # clean up
 rm *.log *.tmp
 ```
 
-The program automatically stops any active projects when you activate a new one.
-When you deactivate your project, the program cd-s to the path you were originally on before starting your first project.
+When you activate a new project, prm automatically stops any active projects.
+When a project is deactivated, prm changes the working directory back to the path you were originally on before starting your first project.
 
 ## Why?
 I found myself missing project management features (like those seen in text editors and IDEs) on the terminal.
 
 ## Usage
+In order to work properly, prm *must* be sourced, *nor* run in a subshell.
+I.e. `. ./prm`.
+
+The easiest way to do this is probably to add an alias to prm in your `~/.bashrc (or wherever you keep your aliases), like so:
+
+```bash
+alias prm=". ./path/to/prm"
+```
+
 From help option:
 
 ```bash
