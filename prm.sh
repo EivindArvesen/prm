@@ -6,7 +6,6 @@ COPY="Written by Eivind Arvesen, 2015."
 VERSION=0.0.1
 
 # TODO:
-# - Check if projects exist on creation, etc.
 # - Examples (comment) in start.sh and stop.sh?
 # - Integrate tmux scripting?
 # - Integrate todo.txt (standard)?
@@ -28,10 +27,16 @@ case "$1" in
     add)
         # Add project
         if [[ $2 ]]; then
-            mkdir -p $DIR/$2
-            printf '#!/usr/bin/env bash\n\n# This script will run when STARTING the project "$2"\n\n' > $DIR/$2/start.sh
-            printf '#!/usr/bin/env bash\n\n# This script will run when STOPPING the project "$2"\n\n' > $DIR/$2/stop.sh
-            $EDITOR $DIR/$2/start.sh && $EDITOR $DIR/$2/stop.sh
+            if [[ -d $DIR/$2 ]]; then
+                rm -rf "$DIR/$2/"
+                echo "Project $2 already exists"
+                # exit
+            else
+                mkdir -p $DIR/$2
+                printf '#!/usr/bin/env bash\n\n# This script will run when STARTING the project "$2"\n\n' > $DIR/$2/start.sh
+                printf '#!/usr/bin/env bash\n\n# This script will run when STOPPING the project "$2"\n\n' > $DIR/$2/stop.sh
+                $EDITOR $DIR/$2/start.sh && $EDITOR $DIR/$2/stop.sh
+            fi
         else
             echo "No name given"
             # exit

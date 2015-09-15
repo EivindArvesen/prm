@@ -40,7 +40,7 @@ I found myself missing project management features (like those seen in text edit
 In order to work properly, prm *must* be sourced, *nor* run in a subshell.
 I.e. `. ./prm`.
 
-The easiest way to do this is probably to add an alias to prm in your `~/.bashrc (or wherever you keep your aliases), like so:
+The easiest way to do this is probably to add an alias to prm in your `~/.bashrc` (or wherever you keep your aliases), like so:
 
 ```bash
 alias prm=". path/to/prm.sh"
