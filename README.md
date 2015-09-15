@@ -7,11 +7,11 @@ This program basically lets you CRUD projects. Upon activation, each projects ru
 These bash-scripts can be used for e.g. changing directories, setting environment variables, cleanup, etc.
 
 ### Example
-One of my project startup-script might for instance look something like this:
+One of my project start-script might for instance look something like this:
 
 ```bash
 # cd to project directory
-cd src/Python/hello-world
+cd $HOME/src/Python/hello-world
 
 # activate conda env
 source activate hello-world
