@@ -9,6 +9,8 @@ VERSION=0.0.1
 # - Check if projects exist on creation, etc.
 # - Fix cd back to path from file after stopping
 # - Examples (comment) in start.sh and stop.sh?
+# - Integrate tmux scripting?
+# - Integrate todo.txt (standard)?
 
 DIR=$HOME/.prm
 
@@ -28,8 +30,8 @@ case "$1" in
         # Add project
         if [[ $2 ]]; then
             mkdir -p $DIR/$2
-            printf '# This script will run when STARTING the project "$2"\n\n' > $DIR/$2/start.sh
-            printf '# This script will run when STOPPING the project "$2"\n\n' > $DIR/$2/stop.sh
+            printf '#!/usr/bin/env bash\n\n# This script will run when STARTING the project "$2"\n\n' > $DIR/$2/start.sh
+            printf '#!/usr/bin/env bash\n\n# This script will run when STOPPING the project "$2"\n\n' > $DIR/$2/stop.sh
             $EDITOR $DIR/$2/start.sh && $EDITOR $DIR/$2/stop.sh
         else
             echo "No name given"
@@ -112,7 +114,7 @@ case "$1" in
         ;;
     -h|--help)
         # Help-Screen
-        echo "Usage: prm.sh [options] ..."
+        echo "Usage: prm [options] ..."
         echo "Options:"
         echo "  add <project name>       Add project"
         echo "  edit <project name>      Edit project"
@@ -123,10 +125,7 @@ case "$1" in
         echo "  -h --help                Display this information."
         echo "  -v --version             Display version info."
         echo ""
-        echo "Report bugs to eivind.arvesen@gmail.com. Please check tickets first."
-        echo ""
-        echo "For something-something, please see:"
-        echo "<URL:http://www.eivindarvesen.com>"
+        echo "Please report bugs to at https://github.com/eivind88/prm"
         exit
         ;;
     -v|--version)
@@ -138,7 +137,7 @@ case "$1" in
     *)
         # Error-Screen
         echo "prm: illegal option -- $1"
-        echo "usage: prm.sh [options] ..."
+        echo "usage: prm [options] ..."
         exit
         ;;
 esac

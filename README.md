@@ -40,7 +40,7 @@ I found myself missing project management features (like those seen in text edit
 From help option:
 
 ```bash
-Usage: prm.sh [options] ...
+Usage: prm [options] ...
 Options:
   add <project name>       Add project
   edit <project name>      Edit project
