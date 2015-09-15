@@ -43,7 +43,7 @@ I.e. `. ./prm`.
 The easiest way to do this is probably to add an alias to prm in your `~/.bashrc (or wherever you keep your aliases), like so:
 
 ```bash
-alias prm=". path/to/prm"
+alias prm=". path/to/prm.sh"
 ```
 
 From help option:

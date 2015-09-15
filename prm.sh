@@ -7,7 +7,6 @@ VERSION=0.0.1
 
 # TODO:
 # - Check if projects exist on creation, etc.
-# - Fix cd back to path from file after stopping
 # - Examples (comment) in start.sh and stop.sh?
 # - Integrate tmux scripting?
 # - Integrate todo.txt (standard)?
