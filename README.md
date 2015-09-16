@@ -33,6 +33,8 @@ rm *.log *.tmp
 When you activate a new project, prm automatically stops any active projects.
 When a project is deactivated, prm changes the working directory back to the path you were originally on before starting your first project.
 
+Adding and editing projects will open the associated start- and stop-scripts in your editor (as defined by the `$EDITOR` environment variable).
+
 ## Why?
 I found myself missing project management features (like those seen in text editors and IDEs) on the terminal.
 

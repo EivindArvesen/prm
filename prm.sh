@@ -6,7 +6,6 @@ COPY="Written by Eivind Arvesen, 2015."
 VERSION=0.0.1
 
 # TODO:
-# - Examples (comment) in start.sh and stop.sh?
 # - Integrate tmux scripting?
 # - Integrate todo.txt (standard)?
 
@@ -33,8 +32,8 @@ case "$1" in
                 # exit
             else
                 mkdir -p $DIR/$2
-                printf '#!/usr/bin/env bash\n\n# This script will run when STARTING the project "$2"\n\n' > $DIR/$2/start.sh
-                printf '#!/usr/bin/env bash\n\n# This script will run when STOPPING the project "$2"\n\n' > $DIR/$2/stop.sh
+                printf '#!/usr/bin/env bash\n\n# This script will run when STARTING the project "$2"\n\n# Here you might want to cd into your project directory, activate virtualenvs, etc.\n\n' > $DIR/$2/start.sh
+                printf '#!/usr/bin/env bash\n\n# This script will run when STOPPING the project "$2"\n\n# Here you might want to deactivate virtualenvs, clean up temporary files, etc.\n\n' > $DIR/$2/stop.sh
                 $EDITOR $DIR/$2/start.sh && $EDITOR $DIR/$2/stop.sh
             fi
         else
