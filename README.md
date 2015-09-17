@@ -66,7 +66,7 @@ Options:
   -v --version             Display version info.
 ```
 
-All prm-data is written to `~/.prm
+All prm-data is written to `~/.prm`
 
 ## License
 This software is released under the terms of the 3-clause New BSD License. See the [license](LICENSE.txt) file for details.
