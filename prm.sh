@@ -5,10 +5,6 @@
 COPY="Written by Eivind Arvesen, 2015."
 VERSION=0.0.1
 
-# TODO:
-# - Integrate tmux scripting?
-# - Integrate todo.txt (standard)?
-
 DIR=$HOME/.prm
 
 #set -e
