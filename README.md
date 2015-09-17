@@ -53,12 +53,12 @@ From help option:
 ```bash
 Usage: prm [options] ...
 Options:
-  add <project name>       Add project
-  edit <project name>      Edit project
-  list                     List all projects
-  remove <project name>    Remove project
-  start <project name>     Start project
-  stop                     Stop active project
+  add <project name>       Add project.
+  edit <project name>      Edit project.
+  list                     List all projects.
+  remove <project name>    Remove project.
+  start <project name>     Start project.
+  stop                     Stop active project.
   -h --help                Display this information.
   -v --version             Display version info.
 ```
