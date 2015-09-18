@@ -80,14 +80,14 @@ case "$1" in
     start)
         # Start project
         if [[ $2 ]]; then
-            if [[ -e $DIR/active.d ]]; then
-                . $DIR/$(cat $DIR/active.d)/stop.sh
-            fi
-            if [[ ! -e $DIR/path.d ]]; then
-                 pwd > $DIR/path.d
-            fi
-            echo $2 > $DIR/active.d
             if [[ -d $DIR/$2 ]]; then
+                if [[ ! -e $DIR/path.d ]]; then
+                    pwd > $DIR/path.d
+                fi
+                if [[ -e $DIR/active.d ]]; then
+                    . $DIR/$(cat $DIR/active.d)/stop.sh
+                fi
+                echo $2 > $DIR/active.d
                 echo "Starting project $2"
                 . $DIR/$2/start.sh
             else
