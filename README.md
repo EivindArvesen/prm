@@ -1,6 +1,9 @@
 # prm
 A minimal project manager for the terminal.
 
+This script **must** be sourced, *not* run in a subshell.
+See [usage](#usage) for more information.
+
 ## What?
 This program basically lets you CRUD projects. Upon activation, each projects runs its associated start-script; on deactivation, it runs the project stop-script.
 
@@ -42,8 +45,7 @@ I found myself missing project management features (like those seen in text edit
 Instead of remembering what projects I am working on these days or switching between loads of terminal windows or tabs, I now use prm.
 
 ## Usage
-In order to work properly, prm *must* be sourced, *not* run in a subshell.
-I.e. `. ./prm`.
+In order to work properly, prm **must** be sourced, *not* run in a subshell; i.e. `. ./prm`.
 
 The easiest way to do this is probably to add an alias to prm in your `~/.bashrc` (or wherever you keep your aliases), like so:
 
