@@ -65,12 +65,16 @@ case "$1" in
     remove)
         # Remove project
         if [[ $2 ]]; then
-            if [[ -d $DIR/$2 ]]; then
-                rm -rf "$DIR/$2/"
-                echo "Removed project $2"
+            if [[ -e $DIR/.active.d ]] && [[ $(cat $DIR/.active.d) == $2 ]]; then
+                echo "Stop project $2 before trying to remove it"
             else
-                echo "$2: No such project"
-                # exit
+                if [[ -d $DIR/$2 ]]; then
+                    rm -rf "$DIR/$2/"
+                    echo "Removed project $2"
+                else
+                    echo "$2: No such project"
+                    # exit
+                fi
             fi
         else
             echo "No name given"
