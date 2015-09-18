@@ -27,9 +27,10 @@ case "$1" in
                 # exit
             else
                 mkdir -p $DIR/$2
-                printf '#!/usr/bin/env bash\n\n# This script will run when STARTING the project "$2"\n\n# Here you might want to cd into your project directory, activate virtualenvs, etc.\n\n' > $DIR/$2/start.sh
-                printf '#!/usr/bin/env bash\n\n# This script will run when STOPPING the project "$2"\n\n# Here you might want to deactivate virtualenvs, clean up temporary files, etc.\n\n' > $DIR/$2/stop.sh
+                printf '#!/usr/bin/env bash\n\n# This script will run when STARTING the project "$2"\n# Here you might want to cd into your project directory, activate virtualenvs, etc.\n\n' > $DIR/$2/start.sh
+                printf '#!/usr/bin/env bash\n\n# This script will run when STOPPING the project "$2"\n# Here you might want to deactivate virtualenvs, clean up temporary files, etc.\n\n' > $DIR/$2/stop.sh
                 $EDITOR $DIR/$2/start.sh && $EDITOR $DIR/$2/stop.sh
+                echo "Added project $2"
             fi
         else
             echo "No name given"
@@ -41,8 +42,9 @@ case "$1" in
         if [[ $2 ]]; then
             if [[ -d $DIR/$2 ]]; then
                 $EDITOR $DIR/$2/start.sh && $EDITOR $DIR/$2/stop.sh
+                echo "Edited project $2"
             else
-                echo "No such project"
+                echo "$2: No such project"
                 # exit
             fi
         else
@@ -65,9 +67,9 @@ case "$1" in
         if [[ $2 ]]; then
             if [[ -d $DIR/$2 ]]; then
                 rm -rf "$DIR/$2/"
-                echo "Removed $2"
+                echo "Removed project $2"
             else
-                echo "No such project"
+                echo "$2: No such project"
                 # exit
             fi
         else
@@ -89,7 +91,7 @@ case "$1" in
                 echo "Starting project $2"
                 . $DIR/$2/start.sh
             else
-                echo "No such project"
+                echo "$2: No such project"
                 # exit
             fi
         else
