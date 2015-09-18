@@ -85,21 +85,25 @@ case "$1" in
         # Start project
         if [[ $2 ]]; then
             if [[ -d $DIR/$2 ]]; then
-                if [[ ! -e $DIR/.path.d ]]; then
-                    pwd > $DIR/.path.d
-                fi
-                if [[ -e $DIR/.active.d ]]; then
-                    . $DIR/$(cat $DIR/.active.d)/stop.sh
-                fi
-                echo $2 > $DIR/.active.d
-                if [[ ! -e $DIR/.prompt.d ]]; then
-                    echo $PS1 > $DIR/.prompt.d
-                    export PS1="[$2] $PS1"
+                if [[ -e $DIR/.active.d ]] && [[ $(cat $DIR/.active.d) == $2 ]]; then
+                    echo "Project $2 is already active"
                 else
-                    export PS1="[$2] $(cat $DIR/.prompt.d)"
+                    if [[ ! -e $DIR/.path.d ]]; then
+                        pwd > $DIR/.path.d
+                    fi
+                    if [[ -e $DIR/.active.d ]]; then
+                        . $DIR/$(cat $DIR/.active.d)/stop.sh
+                    fi
+                    echo $2 > $DIR/.active.d
+                    if [[ ! -e $DIR/.prompt.d ]]; then
+                        echo $PS1 > $DIR/.prompt.d
+                        export PS1="[$2] $PS1"
+                    else
+                        export PS1="[$2] $(cat $DIR/.prompt.d)"
+                    fi
+                    echo "Starting project $2"
+                    . $DIR/$2/start.sh
                 fi
-                echo "Starting project $2"
-                . $DIR/$2/start.sh
             else
                 echo "$2: No such project"
                 # exit
