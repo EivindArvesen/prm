@@ -81,18 +81,18 @@ case "$1" in
         # Start project
         if [[ $2 ]]; then
             if [[ -d $DIR/$2 ]]; then
-                if [[ ! -e $DIR/path.d ]]; then
-                    pwd > $DIR/path.d
+                if [[ ! -e $DIR/.path.d ]]; then
+                    pwd > $DIR/.path.d
                 fi
-                if [[ -e $DIR/active.d ]]; then
-                    . $DIR/$(cat $DIR/active.d)/stop.sh
+                if [[ -e $DIR/.active.d ]]; then
+                    . $DIR/$(cat $DIR/.active.d)/stop.sh
                 fi
-                echo $2 > $DIR/active.d
-                if [[ ! -e $DIR/prompt.d ]]; then
-                    echo $PS1 > $DIR/prompt.d
+                echo $2 > $DIR/.active.d
+                if [[ ! -e $DIR/.prompt.d ]]; then
+                    echo $PS1 > $DIR/.prompt.d
                     export PS1="[$2] $PS1"
                 else
-                    export PS1="[$2] $(cat $DIR/prompt.d)"
+                    export PS1="[$2] $(cat $DIR/.prompt.d)"
                 fi
                 echo "Starting project $2"
                 . $DIR/$2/start.sh
@@ -107,14 +107,14 @@ case "$1" in
         ;;
     stop)
         # Stop project
-        if [[ -e $DIR/active.d ]]; then
-            . $DIR/$(cat $DIR/active.d)/stop.sh
-            echo "Stopping project $(cat $DIR/active.d)"
-            rm $DIR/active.d
-            cd $(cat $DIR/path.d)
-            rm $DIR/path.d
-            export PS1=$(cat $DIR/prompt.d)
-            rm $DIR/prompt.d
+        if [[ -e $DIR/.active.d ]]; then
+            . $DIR/$(cat $DIR/.active.d)/stop.sh
+            echo "Stopping project $(cat $DIR/.active.d)"
+            rm $DIR/.active.d
+            cd $(cat $DIR/.path.d)
+            rm $DIR/.path.d
+            export PS1=$(cat $DIR/.prompt.d)
+            rm $DIR/.prompt.d
         else
             echo "No active project"
             # exit
