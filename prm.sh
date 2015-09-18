@@ -58,7 +58,7 @@ case "$1" in
             echo "No projects exist"
         else
             cd $DIR/
-            ls -d *
+            echo -e "\000$(ls -d *)"
             cd - >/dev/null 2>&1
         fi
         ;;
@@ -88,6 +88,12 @@ case "$1" in
                     . $DIR/$(cat $DIR/active.d)/stop.sh
                 fi
                 echo $2 > $DIR/active.d
+                if [[ ! -e $DIR/prompt.d ]]; then
+                    echo $PS1 > $DIR/prompt.d
+                    export PS1="[$2] $PS1"
+                else
+                    export PS1="[$2] $(cat $DIR/prompt.d)"
+                fi
                 echo "Starting project $2"
                 . $DIR/$2/start.sh
             else
@@ -107,6 +113,8 @@ case "$1" in
             rm $DIR/active.d
             cd $(cat $DIR/path.d)
             rm $DIR/path.d
+            export PS1=$(cat $DIR/prompt.d)
+            rm $DIR/prompt.d
         else
             echo "No active project"
             # exit
