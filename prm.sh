@@ -23,7 +23,6 @@ case "$1" in
         # Add project
         if [[ $2 ]]; then
             if [[ -d $DIR/$2 ]]; then
-                rm -rf "$DIR/$2/"
                 echo "Project $2 already exists"
                 # exit
             else
