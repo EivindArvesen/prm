@@ -130,7 +130,7 @@ case "$1" in
                     fi
                     echo $2 > $prm_dir/.active-$$.tmp
                     if [ ! -e $prm_dir/.prompt-$$.tmp ]; then
-                        echo $PS1 > $prm_dir/.prompt-$$.tmp
+                        echo "$PS1" > $prm_dir/.prompt-$$.tmp
                         export PS1="[$2] $PS1"
                     else
                         export PS1="[$2] $(cat $prm_dir/.prompt-$$.tmp)"
@@ -206,5 +206,5 @@ if $(ls -a | grep ".active*" > /dev/null 2>&1); then
             rm $prm_dir/.active-$pid.tmp $prm_dir/.path-$pid.tmp $prm_dir/.prompt-$pid.tmp
         fi
     done
-    cd - >/dev/null 2>&1
 fi
+cd - >/dev/null 2>&1
