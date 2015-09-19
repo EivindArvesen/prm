@@ -59,7 +59,7 @@ case "$1" in
     remove)
         # Remove project
         if [[ $2 ]]; then
-            if [[ -e $prm_dir/.active.d ]] && [[ $(cat $prm_dir/.active.d) == $2 ]]; then
+            if [[ -e $prm_dir/.active-$$.tmp ]] && [[ $(cat $prm_dir/.active-$$.tmp) == $2 ]]; then
                 echo "Stop project $2 before trying to remove it"
             else
                 if [[ -d $prm_dir/$2 ]]; then
@@ -77,7 +77,7 @@ case "$1" in
         ;;
     rename)
         # Rename project
-        if [[ -e $prm_dir/.active.d ]] && [[ $(cat $prm_dir/.active.d) == $2 ]]; then
+        if [[ -e $prm_dir/.active-$$.tmp ]] && [[ $(cat $prm_dir/.active-$$.tmp) == $2 ]]; then
             echo "Stop project $2 before trying to rename it"
         else
             if [[ $2 ]]; then
@@ -105,21 +105,21 @@ case "$1" in
         # Start project
         if [[ $2 ]]; then
             if [[ -d $prm_dir/$2 ]]; then
-                if [[ -e $prm_dir/.active.d ]] && [[ $(cat $prm_dir/.active.d) == $2 ]]; then
+                if [[ -e $prm_dir/.active-$$.tmp ]] && [[ $(cat $prm_dir/.active-$$.tmp) == $2 ]]; then
                     echo "Project $2 is already active"
                 else
-                    if [[ ! -e $prm_dir/.path.d ]]; then
-                        pwd > $prm_dir/.path.d
+                    if [[ ! -e $prm_dir/.path-$$.tmp ]]; then
+                        pwd > $prm_dir/.path-$$.tmp
                     fi
-                    if [[ -e $prm_dir/.active.d ]]; then
-                        . $prm_dir/$(cat $prm_dir/.active.d)/stop.sh
+                    if [[ -e $prm_dir/.active-$$.tmp ]]; then
+                        . $prm_dir/$(cat $prm_dir/.active-$$.tmp)/stop.sh
                     fi
-                    echo $2 > $prm_dir/.active.d
-                    if [[ ! -e $prm_dir/.prompt.d ]]; then
-                        echo $PS1 > $prm_dir/.prompt.d
+                    echo $2 > $prm_dir/.active-$$.tmp
+                    if [[ ! -e $prm_dir/.prompt-$$.tmp ]]; then
+                        echo $PS1 > $prm_dir/.prompt-$$.tmp
                         export PS1="[$2] $PS1"
                     else
-                        export PS1="[$2] $(cat $prm_dir/.prompt.d)"
+                        export PS1="[$2] $(cat $prm_dir/.prompt-$$.tmp)"
                     fi
                     echo "Starting project $2"
                     . $prm_dir/$2/start.sh
@@ -135,14 +135,14 @@ case "$1" in
         ;;
     stop)
         # Stop project
-        if [[ -e $prm_dir/.active.d ]]; then
-            . $prm_dir/$(cat $prm_dir/.active.d)/stop.sh
-            echo "Stopping project $(cat $prm_dir/.active.d)"
-            rm $prm_dir/.active.d
-            cd $(cat $prm_dir/.path.d)
-            rm $prm_dir/.path.d
-            export PS1=$(cat $prm_dir/.prompt.d)
-            rm $prm_dir/.prompt.d
+        if [[ -e $prm_dir/.active-$$.tmp ]]; then
+            . $prm_dir/$(cat $prm_dir/.active-$$.tmp)/stop.sh
+            echo "Stopping project $(cat $prm_dir/.active-$$.tmp)"
+            rm $prm_dir/.active-$$.tmp
+            cd $(cat $prm_dir/.path-$$.tmp)
+            rm $prm_dir/.path-$$.tmp
+            export PS1=$(cat $prm_dir/.prompt-$$.tmp)
+            rm $prm_dir/.prompt-$$.tmp
         else
             echo "No active project"
             # exit
