@@ -3,16 +3,10 @@
 # Copyright (c) 2015 Eivind Arvesen. All Rights Reserved.
 
 COPY="Written by Eivind Arvesen, 2015."
-VERSION=0.0.1
+VERSION=0.1.0
 
 prm_dir=$HOME/.prm
 
-#set -e
-#function cleanup {
-#  #STOP
-#  exit
-#}
-#$trap cleanup # exit
 
 if [ ! -d "$prm_dir" ]; then
     mkdir -p "$prm_dir"
@@ -142,7 +136,6 @@ case "$1" in
         echo "  -v --version             Display version info."
         echo ""
         echo "Please report bugs at https://github.com/eivind88/prm"
-        echo ""
         echo "Remember that prm MUST be sourced - not run in a subshell."
         echo "I.e. '. ./prm'"
         # exit
