@@ -62,6 +62,7 @@ Options:
   edit <project name>      Edit project.
   list                     List all projects.
   remove <project name>    Remove project.
+  rename <old> <new>       Rename project.
   start <project name>     Start project.
   stop                     Stop active project.
   -h --help                Display this information.
