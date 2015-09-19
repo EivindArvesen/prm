@@ -17,6 +17,9 @@ These bash-scripts can be used for things like changing directories, setting env
 There is basic prompt integration in the form of `[PROJECT] <prompt>`, which can be seen in the animated .gif demo above.
 
 You can have several projects active at once in different shells, as prm associates active instances with the shell PID.
+Currently active projects can be listed (as described in [usage](#usage)).
+
+Dead project instances (i.e. project instances that are still active on shell exit) will be automatically deactivated the next time you run prm – without running their stop-scripts.
 
 ## How?
 Adding and editing projects will open the associated start- and stop-scripts in your editor (as defined by the `$EDITOR` environment variable).

@@ -16,16 +16,13 @@ case "$1" in
     active)
         # List active project "instances"
         cd $prm_dir
-        for instance in $(ls .active*); do
+        for instance in $(ls .active* > /dev/null 2>&1); do
             #statements
             pid=${instance%.*}
             pid=${pid##*-}
             if (ps -p $pid > /dev/null); then
-                corr_pro="LIVE"
-            else
-                corr_pro="DEAD"
+                echo "$pid    $(cat $instance)"
             fi
-            echo "$pid    $corr_pro    $(cat $instance)"
         done
         cd - >/dev/null 2>&1
         ;;
@@ -197,3 +194,17 @@ case "$1" in
         # exit
         ;;
 esac
+
+# Clean dead project "instances"
+cd $prm_dir
+if (ls .active* > /dev/null 2>&1); then
+    for instance in $(ls .active*); do
+        pid=${instance%.*}
+        pid=${pid##*-}
+        if !(ps -p $pid > /dev/null); then
+            #ls .*-$pid.*
+            rm $prm_dir/.active-$pid.tmp $prm_dir/.path-$pid.tmp $prm_dir/.prompt-$pid.tmp
+        fi
+    done
+    cd - >/dev/null 2>&1
+fi
