@@ -154,7 +154,7 @@ case "$1" in
             rm $prm_dir/.active-$$.tmp
             cd $(cat $prm_dir/.path-$$.tmp)
             rm $prm_dir/.path-$$.tmp
-            export PS1=$(cat $prm_dir/.prompt-$$.tmp)
+            export PS1="$(cat $prm_dir/.prompt-$$.tmp)"
             rm $prm_dir/.prompt-$$.tmp
         else
             echo "No active project"
