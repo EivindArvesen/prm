@@ -55,7 +55,7 @@ The easiest way to do this is probably to add an alias to prm in your `~/.bashrc
 alias prm=". path/to/prm.sh"
 ```
 
-From help the option screen:
+From the help option screen:
 
 ```bash
 Usage: prm [options] ...
