@@ -75,6 +75,32 @@ case "$1" in
             # exit
         fi
         ;;
+    rename)
+        # Rename project
+        if [[ -e $prm_dir/.active.d ]] && [[ $(cat $prm_dir/.active.d) == $2 ]]; then
+            echo "Stop project $2 before trying to rename it"
+        else
+            if [[ $2 ]]; then
+                if [[ ! -d $prm_dir/$2 ]]; then
+                    echo "$2: No such project"
+                else
+                    if [[ $3 ]]; then
+                        if [[ -d $prm_dir/$3 ]]; then
+                            echo "Project $3 already exists"
+                        else
+                            mv "$prm_dir/$2" "$prm_dir/$3"
+                            echo "Renamed project $2 $3"
+                        fi
+                    else
+                        echo "No new name given"
+                    fi
+                fi
+            else
+                echo "No name given"
+                # exit
+            fi
+        fi
+        ;;
     start)
         # Start project
         if [[ $2 ]]; then
@@ -130,6 +156,7 @@ case "$1" in
         echo "  edit <project name>      Edit project."
         echo "  list                     List all projects."
         echo "  remove <project name>    Remove project."
+        echo "  rename <old> <new>       Rename project."
         echo "  start <project name>     Start project."
         echo "  stop                     Stop active project."
         echo "  -h --help                Display this information."
