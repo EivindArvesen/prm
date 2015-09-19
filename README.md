@@ -6,8 +6,11 @@ A minimal project manager for the terminal.
 This script **must** be sourced, *not* run in a subshell.
 See [usage](#usage) for more information.
 
-At present, prm is only developed and tested with `bash`, as I have very little experience with and don't personally use alternatives like `fish` and `zsh`.
-I'm very much open to contributions that fix issues with these (that don't break bash support), though.
+At present, prm is mostly developed and tested with `bash`, as this is what I personally use and have the most experience with.
+Since I want to support `zsh`, I'm very much open to contributions that fix issues with it (provided that they don't break `bash` support), and I try to test prm using it every once in a while to the best of my abilities.
+
+Regrettably, `fish` is not supported because of syntax incompatibilities.
+See [this issue](https://github.com/eivind88/prm/issues/2) for some details.
 
 ## What?
 This program basically lets you CRUD projects. Upon activation, each projects runs its associated start-script; on deactivation, it runs the project stop-script.

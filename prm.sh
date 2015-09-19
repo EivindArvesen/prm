@@ -16,20 +16,21 @@ case "$1" in
     active)
         # List active project "instances"
         cd $prm_dir
-        for instance in $(ls .active* > /dev/null 2>&1); do
-            #statements
-            pid=${instance%.*}
-            pid=${pid##*-}
-            if (ps -p $pid > /dev/null); then
-                echo "$pid    $(cat $instance)"
-            fi
-        done
+        if $(ls -a | grep ".active*" > /dev/null 2>&1); then
+            for instance in $(ls .active*); do
+                pid=${instance%.*}
+                pid=${pid##*-}
+                if (ps -p $pid > /dev/null); then
+                    echo "$pid    $(cat $instance)"
+                fi
+            done
+        fi
         cd - >/dev/null 2>&1
         ;;
     add)
         # Add project
-        if [[ $2 ]]; then
-            if [[ -d $prm_dir/$2 ]]; then
+        if [ $2 ]; then
+            if [ -d $prm_dir/$2 ]; then
                 echo "Project $2 already exists"
                 # exit
             else
@@ -46,8 +47,8 @@ case "$1" in
         ;;
     edit)
         # Edit project
-        if [[ $2 ]]; then
-            if [[ -d $prm_dir/$2 ]]; then
+        if [ $2 ]; then
+            if [ -d $prm_dir/$2 ]; then
                 $EDITOR $prm_dir/$2/start.sh && $EDITOR $prm_dir/$2/stop.sh
                 echo "Edited project $2"
             else
@@ -61,7 +62,7 @@ case "$1" in
         ;;
     list)
         # List projects
-        if [[ ! `find $prm_dir -type d | wc -l` -gt 1 ]]; then
+        if [ ! `find $prm_dir -type d | wc -l` -gt 1 ]; then
             echo "No projects exist"
         else
             cd $prm_dir/
@@ -71,11 +72,11 @@ case "$1" in
         ;;
     remove)
         # Remove project
-        if [[ $2 ]]; then
-            if [[ -e $prm_dir/.active-$$.tmp ]] && [[ $(cat $prm_dir/.active-$$.tmp) == $2 ]]; then
+        if [ $2 ]; then
+            if [ -e $prm_dir/.active-$$.tmp ] && [ $(cat $prm_dir/.active-$$.tmp)==$2 ]; then
                 echo "Stop project $2 before trying to remove it"
             else
-                if [[ -d $prm_dir/$2 ]]; then
+                if [ -d $prm_dir/$2 ]; then
                     rm -rf "$prm_dir/$2/"
                     echo "Removed project $2"
                 else
@@ -90,15 +91,15 @@ case "$1" in
         ;;
     rename)
         # Rename project
-        if [[ -e $prm_dir/.active-$$.tmp ]] && [[ $(cat $prm_dir/.active-$$.tmp) == $2 ]]; then
+        if [ -e $prm_dir/.active-$$.tmp ] && [ $(cat $prm_dir/.active-$$.tmp)==$2 ]; then
             echo "Stop project $2 before trying to rename it"
         else
-            if [[ $2 ]]; then
-                if [[ ! -d $prm_dir/$2 ]]; then
+            if [ $2 ]; then
+                if [ ! -d $prm_dir/$2 ]; then
                     echo "$2: No such project"
                 else
-                    if [[ $3 ]]; then
-                        if [[ -d $prm_dir/$3 ]]; then
+                    if [ $3 ]; then
+                        if [ -d $prm_dir/$3 ]; then
                             echo "Project $3 already exists"
                         else
                             mv "$prm_dir/$2" "$prm_dir/$3"
@@ -116,19 +117,19 @@ case "$1" in
         ;;
     start)
         # Start project
-        if [[ $2 ]]; then
-            if [[ -d $prm_dir/$2 ]]; then
-                if [[ -e $prm_dir/.active-$$.tmp ]] && [[ $(cat $prm_dir/.active-$$.tmp) == $2 ]]; then
+        if [ $2 ]; then
+            if [ -d $prm_dir/$2 ]; then
+                if [ -e $prm_dir/.active-$$.tmp ] && [ $(cat $prm_dir/.active-$$.tmp)==$2 ]; then
                     echo "Project $2 is already active"
                 else
-                    if [[ ! -e $prm_dir/.path-$$.tmp ]]; then
+                    if [ ! -e $prm_dir/.path-$$.tmp ]; then
                         pwd > $prm_dir/.path-$$.tmp
                     fi
-                    if [[ -e $prm_dir/.active-$$.tmp ]]; then
+                    if [ -e $prm_dir/.active-$$.tmp ]; then
                         . $prm_dir/$(cat $prm_dir/.active-$$.tmp)/stop.sh
                     fi
                     echo $2 > $prm_dir/.active-$$.tmp
-                    if [[ ! -e $prm_dir/.prompt-$$.tmp ]]; then
+                    if [ ! -e $prm_dir/.prompt-$$.tmp ]; then
                         echo $PS1 > $prm_dir/.prompt-$$.tmp
                         export PS1="[$2] $PS1"
                     else
@@ -148,7 +149,7 @@ case "$1" in
         ;;
     stop)
         # Stop project
-        if [[ -e $prm_dir/.active-$$.tmp ]]; then
+        if [ -e $prm_dir/.active-$$.tmp ]; then
             . $prm_dir/$(cat $prm_dir/.active-$$.tmp)/stop.sh
             echo "Stopping project $(cat $prm_dir/.active-$$.tmp)"
             rm $prm_dir/.active-$$.tmp
@@ -197,12 +198,11 @@ esac
 
 # Clean dead project "instances"
 cd $prm_dir
-if (ls .active* > /dev/null 2>&1); then
+if $(ls -a | grep ".active*" > /dev/null 2>&1); then
     for instance in $(ls .active*); do
         pid=${instance%.*}
         pid=${pid##*-}
-        if !(ps -p $pid > /dev/null); then
-            #ls .*-$pid.*
+        if (! ps -p $pid > /dev/null); then
             rm $prm_dir/.active-$pid.tmp $prm_dir/.path-$pid.tmp $prm_dir/.prompt-$pid.tmp
         fi
     done
