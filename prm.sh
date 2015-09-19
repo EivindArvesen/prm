@@ -206,5 +206,5 @@ if $(ls -a | grep ".active*" > /dev/null 2>&1); then
             rm $prm_dir/.active-$pid.tmp $prm_dir/.path-$pid.tmp $prm_dir/.prompt-$pid.tmp
         fi
     done
-    cd - >/dev/null 2>&1
 fi
+cd - >/dev/null 2>&1
