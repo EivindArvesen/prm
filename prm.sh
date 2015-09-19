@@ -26,8 +26,8 @@ case "$1" in
                 corr_pro="DEAD"
             fi
             echo "$pid    $corr_pro    $(cat $instance)"
-            cd - >/dev/null 2>&1
         done
+        cd - >/dev/null 2>&1
         ;;
     add)
         # Add project
@@ -37,8 +37,8 @@ case "$1" in
                 # exit
             else
                 mkdir -p $prm_dir/$2
-                printf '#!/usr/bin/env bash\n\n# This script will run when STARTING the project "$2"\n# Here you might want to cd into your project directory, activate virtualenvs, etc.\n\n' > $prm_dir/$2/start.sh
-                printf '#!/usr/bin/env bash\n\n# This script will run when STOPPING the project "$2"\n# Here you might want to deactivate virtualenvs, clean up temporary files, etc.\n\n' > $prm_dir/$2/stop.sh
+                printf "#!/usr/bin/env bash\n\n# This script will run when STARTING the project \"$2\"\n# Here you might want to cd into your project directory, activate virtualenvs, etc.\n\n" > $prm_dir/$2/start.sh
+                printf "#!/usr/bin/env bash\n\n# This script will run when STOPPING the project \"$2\"\n# Here you might want to deactivate virtualenvs, clean up temporary files, etc.\n\n" > $prm_dir/$2/stop.sh
                 $EDITOR $prm_dir/$2/start.sh && $EDITOR $prm_dir/$2/stop.sh
                 echo "Added project $2"
             fi
