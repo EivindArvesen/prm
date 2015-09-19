@@ -67,6 +67,7 @@ From the help option screen:
 ```bash
 Usage: prm [options] ...
 Options:
+  active                   List active project instances.
   add <project name>       Add project.
   edit <project name>      Edit project.
   list                     List all projects.

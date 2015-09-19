@@ -13,6 +13,22 @@ if [ ! -d "$prm_dir" ]; then
 fi
 
 case "$1" in
+    active)
+        # List active project "instances"
+        cd $prm_dir
+        for instance in $(ls .active*); do
+            #statements
+            pid=${instance%.*}
+            pid=${pid##*-}
+            if (ps -p $pid > /dev/null); then
+                corr_pro="LIVE"
+            else
+                corr_pro="DEAD"
+            fi
+            echo "$pid    $corr_pro    $(cat $instance)"
+            cd - >/dev/null 2>&1
+        done
+        ;;
     add)
         # Add project
         if [[ $2 ]]; then
@@ -152,6 +168,7 @@ case "$1" in
         # Help-Screen
         echo "Usage: prm [options] ..."
         echo "Options:"
+        echo "  active                   List active project instances."
         echo "  add <project name>       Add project."
         echo "  edit <project name>      Edit project."
         echo "  list                     List all projects."
