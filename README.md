@@ -1,6 +1,8 @@
 # prm
 A minimal project manager for the terminal.
 
+![Demo](https://github.com/eivind88/prm/blob/demo/prm.gif)
+
 This script **must** be sourced, *not* run in a subshell.
 See [usage](#usage) for more information.
 
