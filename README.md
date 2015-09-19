@@ -6,10 +6,15 @@ A minimal project manager for the terminal.
 This script **must** be sourced, *not* run in a subshell.
 See [usage](#usage) for more information.
 
+At present, prm is only developed and tested with `bash`, as I have very little experience with and don't personally use alternatives like `fish` and `zsh`.
+I'm very much open to contributions that fix issues with these (that don't break bash support), though.
+
 ## What?
 This program basically lets you CRUD projects. Upon activation, each projects runs its associated start-script; on deactivation, it runs the project stop-script.
 
 These bash-scripts can be used for things like changing directories, setting environment variables, cleanup, etc.
+
+There is basic prompt integration in the form of `[PROJECT] <prompt>`, which can be seen in the animated .gif demo above.
 
 ## How?
 Adding and editing projects will open the associated start- and stop-scripts in your editor (as defined by the `$EDITOR` environment variable).
@@ -72,6 +77,16 @@ Options:
 ```
 
 All prm-data is written to `~/.prm`
+
+## Contributing
+Feedback is strongly encouraged. If you run into a bug or would like to see a new feature, please open a new issue. Contributions in the form of code (e.g. implementing new features, bug-fixes) are also appreciated. These should follow the"fork-and-pull" workflow:
+
+1. Fork the repo on Github
+2. Create a branch
+3. Make and commit your changes
+4. Sync (fetch and merge) with "upstream"
+5. Push your changes to your branch on Github
+6. Open a pull request "upstream" with your changes
 
 ## License
 This software is released under the terms of the 3-clause New BSD License. See the [license](LICENSE.txt) file for details.
