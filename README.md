@@ -7,10 +7,11 @@ This script **must** be sourced, *not* run in a subshell.
 See [usage](#usage) for more information.
 
 At present, prm is mostly developed and tested with `bash`, as this is what I personally use and have the most experience with.
-Since I want to support `zsh`, I'm very much open to contributions that fix issues with it (provided that they don't break `bash` support), and I try to test prm using it every once in a while to the best of my abilities.
+I'm very much open to contributions that fix issues with `zsh` (provided that they don't break `bash` support), and I try to test prm using it every once in a while to the best of my abilities.
 
 Regrettably, `fish` is not supported because of syntax incompatibilities.
 See [this issue](https://github.com/eivind88/prm/issues/2) for some details.
+However, Fred Deschenes has made a [port](https://github.com/FredDeschenes/prm-fish) for `fish` that you could check out.
 
 ## What?
 This program basically lets you CRUD projects. Upon activation, each projects runs its associated start-script; on deactivation, it runs the project stop-script.
@@ -96,6 +97,8 @@ Feedback is strongly encouraged. If you run into a bug or would like to see a ne
 4. Sync (fetch and merge) with "upstream"
 5. Push your changes to your branch on Github
 6. Open a pull request "upstream" with your changes
+
+Pull requests should explain clearly what changes have been made, and why they have been made. They should also reference any relevant issues.
 
 ## License
 This software is released under the terms of the 3-clause New BSD License. See the [license](LICENSE.txt) file for details.
