@@ -2,9 +2,35 @@
 
 # Copyright (c) 2015 Eivind Arvesen. All Rights Reserved.
 
+if [[ $(basename "$SHELL") == zsh ]]; then
+    prompt_var=RPROMPT
+else
+    prompt_var=PS1
+fi
+
 function error() {
 echo "$1"
 exit
+}
+
+function set_prompt_start() {
+if [ ! -e "$prm_dir/.prompt-$$.tmp" ]; then
+    cur_prompt=""
+    eval "cur_prompt=\$$prompt_var"
+
+    echo "$cur_prompt" > "$prm_dir/.prompt-$$.tmp"
+
+    eval "export $prompt_var"
+    eval "$prompt_var=[$1] $cur_prompt"
+else
+    eval "export $prompt_var"
+    eval "$prompt_var=[$1] $(cat "$prm_dir/.prompt-$$.tmp")"
+fi
+}
+
+function set_prompt_finish() {
+eval "export $prompt_var"
+eval "$prompt_var=$(cat "$prm_dir/.prompt-$$.tmp")"
 }
 
 COPY="Written by Eivind Arvesen, 2015."
@@ -134,12 +160,7 @@ case "$1" in
                         . "$prm_dir/$(cat "$prm_dir/.active-$$.tmp")/stop.sh"
                     fi
                     echo "$2" > "$prm_dir/.active-$$.tmp"
-                    if [ ! -e "$prm_dir/.prompt-$$.tmp" ]; then
-                        echo "$PS1" > "$prm_dir/.prompt-$$.tmp"
-                        export PS1="[$2] $PS1"
-                    else
-                        export PS1="[$2] $(cat "$prm_dir/.prompt-$$.tmp")"
-                    fi
+                    set_prompt_start "$2"
                     echo "Starting project $2"
                     . "$prm_dir/$2/start.sh"
                 fi
@@ -160,7 +181,7 @@ case "$1" in
             rm "$prm_dir/.active-$$.tmp"
             cd "$(cat "$prm_dir/.path-$$.tmp")" || error "Directory $prm_dir/.path-$$.tmp not found"
             rm "$prm_dir/.path-$$.tmp"
-            export PS1="$(cat "$prm_dir/.prompt-$$.tmp")"
+            set_prompt_finish
             rm "$prm_dir/.prompt-$$.tmp"
         else
             echo "No active project"
