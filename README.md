@@ -86,7 +86,8 @@ Options:
   -v --version             Display version info.
 ```
 
-All prm-data is written to `~/.prm`
+By default all prm-data is written to `~/.prm`
+You can set the prm-data directory with the $PRM_PATH env variable.
 
 ## Contributing
 Feedback is strongly encouraged. If you run into a bug or would like to see a new feature, please open a new issue. Contributions in the form of code (e.g. implementing new features, bug-fixes) are also appreciated. These should follow the"fork-and-pull" workflow:

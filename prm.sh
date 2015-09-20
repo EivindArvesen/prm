@@ -5,7 +5,11 @@
 COPY="Written by Eivind Arvesen, 2015."
 VERSION=0.1.0
 
-prm_dir=$HOME/.prm
+prm_dir=$PRM_DIR
+
+if [ -z "$prm_dir" ]; then
+        prm_dir=$HOME/.prm
+fi
 
 
 if [ ! -d "$prm_dir" ]; then
