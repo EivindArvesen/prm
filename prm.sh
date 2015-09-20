@@ -152,11 +152,11 @@ case "$1" in
         if [ -e $prm_dir/.active-$$.tmp ]; then
             . $prm_dir/$(cat $prm_dir/.active-$$.tmp)/stop.sh
             echo "Stopping project $(cat $prm_dir/.active-$$.tmp)"
-            rm $prm_dir/.active-$$.tmp
+            rm -f $prm_dir/.active-$$.tmp
             cd $(cat $prm_dir/.path-$$.tmp)
-            rm $prm_dir/.path-$$.tmp
+            rm -f $prm_dir/.path-$$.tmp
             export PS1="$(cat $prm_dir/.prompt-$$.tmp)"
-            rm $prm_dir/.prompt-$$.tmp
+            rm -f $prm_dir/.prompt-$$.tmp
         else
             echo "No active project"
             # exit
@@ -203,7 +203,7 @@ if $(ls -a | grep ".active*" > /dev/null 2>&1); then
         pid=${instance%.*}
         pid=${pid##*-}
         if (! ps -p $pid > /dev/null); then
-            rm $prm_dir/.active-$pid.tmp $prm_dir/.path-$pid.tmp $prm_dir/.prompt-$pid.tmp
+            rm -f $prm_dir/.active-$pid.tmp $prm_dir/.path-$pid.tmp $prm_dir/.prompt-$pid.tmp
         fi
     done
 fi
