@@ -2,6 +2,11 @@
 
 # Copyright (c) 2015 Eivind Arvesen. All Rights Reserved.
 
+function error() {
+echo "$1"
+exit
+}
+
 COPY="Written by Eivind Arvesen, 2015."
 VERSION=0.1.0
 
@@ -15,7 +20,7 @@ fi
 case "$1" in
     active)
         # List active project "instances"
-        cd $prm_dir
+        cd "$prm_dir" || error "Directory $prm_dir not found"
         if $(ls -a | grep ".active*" > /dev/null 2>&1); then
             for instance in $(ls .active*); do
                 pid=${instance%.*}
@@ -25,7 +30,7 @@ case "$1" in
                 fi
             done
         fi
-        cd - >/dev/null 2>&1
+        cd - >/dev/null 2>&1 || error "Previous directory unavailable"
         ;;
     add)
         # Add project
@@ -65,9 +70,9 @@ case "$1" in
         if [ ! `find $prm_dir -type d | wc -l` -gt 1 ]; then
             echo "No projects exist"
         else
-            cd $prm_dir/
+            cd "$prm_dir/" || error "Directory $prm_dir not found"
             echo -e "\000$(ls -d *)"
-            cd - >/dev/null 2>&1
+            cd - >/dev/null 2>&1 || error "Previous directory unavailable"
         fi
         ;;
     remove)
@@ -153,7 +158,7 @@ case "$1" in
             . $prm_dir/$(cat $prm_dir/.active-$$.tmp)/stop.sh
             echo "Stopping project $(cat $prm_dir/.active-$$.tmp)"
             rm $prm_dir/.active-$$.tmp
-            cd $(cat $prm_dir/.path-$$.tmp)
+            cd "$(cat "$prm_dir/.path-$$.tmp")" || error "Directory $prm_dir/.path-$$.tmp not found"
             rm $prm_dir/.path-$$.tmp
             export PS1="$(cat $prm_dir/.prompt-$$.tmp)"
             rm $prm_dir/.prompt-$$.tmp
@@ -197,7 +202,7 @@ case "$1" in
 esac
 
 # Clean dead project "instances"
-cd $prm_dir
+cd "$prm_dir" || error "Directory $prm_dir not found"
 if $(ls -a | grep ".active*" > /dev/null 2>&1); then
     for instance in $(ls .active*); do
         pid=${instance%.*}
@@ -207,4 +212,4 @@ if $(ls -a | grep ".active*" > /dev/null 2>&1); then
         fi
     done
 fi
-cd - >/dev/null 2>&1
+cd - >/dev/null 2>&1 || error "Previous directory unavailable"
