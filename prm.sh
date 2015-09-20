@@ -3,7 +3,7 @@
 # Copyright (c) 2015 Eivind Arvesen. All Rights Reserved.
 
 COPY="Written by Eivind Arvesen, 2015."
-VERSION=0.1.0
+VERSION=0.2.0
 
 prm_dir="${PRM_DIR:-$HOME/.prm}"
 
