@@ -24,7 +24,7 @@ case "$1" in
         while IFS= read -r -d '' instance; do
             pid=${instance%.*}
             pid=${pid##*-}
-            if "(ps -p $pid > /dev/null)"; then
+            if (ps -p "$pid" > /dev/null); then
                 echo "$pid    $(cat "$instance")"
             fi
         done < <(find . -maxdepth 1 -name '.active*' -print0 -quit)
