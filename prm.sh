@@ -21,15 +21,13 @@ case "$1" in
     active)
         # List active project "instances"
         cd "$prm_dir" || error "Directory $prm_dir not found"
-        if $(ls -a | grep ".active*" > /dev/null 2>&1); then
-            for instance in $(ls .active*); do
-                pid=${instance%.*}
-                pid=${pid##*-}
-                if (ps -p $pid > /dev/null); then
-                    echo "$pid    $(cat $instance)"
-                fi
-            done
-        fi
+        while IFS= read -r -d '' instance; do
+            pid=${instance%.*}
+            pid=${pid##*-}
+            if (ps -p $pid > /dev/null); then
+                echo "$pid    $(cat $instance)"
+            fi
+        done < <(find . -maxdepth 1 -name '.active*' -print0 -quit)
         cd - >/dev/null 2>&1 || error "Previous directory unavailable"
         ;;
     add)
@@ -71,7 +69,9 @@ case "$1" in
             echo "No projects exist"
         else
             cd "$prm_dir/" || error "Directory $prm_dir not found"
-            echo -e "\000$(ls -d *)"
+            for active in ./*; do
+                basename "$active"
+            done
             cd - >/dev/null 2>&1 || error "Previous directory unavailable"
         fi
         ;;
@@ -203,8 +203,8 @@ esac
 
 # Clean dead project "instances"
 cd "$prm_dir" || error "Directory $prm_dir not found"
-if $(ls -a | grep ".active*" > /dev/null 2>&1); then
-    for instance in $(ls .active*); do
+if [ -n "$(find . -maxdepth 1 -name '.active*' -print -quit)" ]; then
+    for instance in .active*; do
         pid=${instance%.*}
         pid=${pid##*-}
         if (! ps -p $pid > /dev/null); then
