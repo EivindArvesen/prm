@@ -1,6 +1,19 @@
 #!/usr/bin/env bash
 
 # Copyright (c) 2015 Eivind Arvesen. All Rights Reserved.
+COPY="Written by Eivind Arvesen, 2015."
+VERSION=0.1.0
+
+prm_dir="$PRM_DIR"
+
+if [ -z "$prm_dir" ]; then
+        prm_dir=$HOME/.prm
+fi
+
+if [ ! -d "$prm_dir" ]; then
+    mkdir -p "$prm_dir"
+fi
+
 
 if [[ $(basename "$SHELL") == zsh ]]; then
     prompt_var=RPROMPT
@@ -32,16 +45,6 @@ function set_prompt_finish() {
 eval "export $prompt_var"
 eval $prompt_var="'$(cat "$prm_dir/.prompt-$$.tmp")'"
 }
-
-COPY="Written by Eivind Arvesen, 2015."
-VERSION=0.1.0
-
-prm_dir=$HOME/.prm
-
-
-if [ ! -d "$prm_dir" ]; then
-    mkdir -p "$prm_dir"
-fi
 
 case "$1" in
     active)
