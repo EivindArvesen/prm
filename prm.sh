@@ -157,11 +157,13 @@ case "$1" in
                         pwd > "$prm_dir/.path-$$.tmp"
                     fi
                     if [ -e "$prm_dir/.active-$$.tmp" ]; then
+                        # shellcheck source=/dev/null
                         . "$prm_dir/$(cat "$prm_dir/.active-$$.tmp")/stop.sh"
                     fi
                     echo "$2" > "$prm_dir/.active-$$.tmp"
                     set_prompt_start "$2"
                     echo "Starting project $2"
+                    # shellcheck source=/dev/null
                     . "$prm_dir/$2/start.sh"
                 fi
             else
@@ -176,6 +178,7 @@ case "$1" in
     stop)
         # Stop project
         if [ -e "$prm_dir/.active-$$.tmp" ]; then
+            # shellcheck source=/dev/null
             . "$prm_dir/$(cat "$prm_dir/.active-$$.tmp")/stop.sh"
             echo "Stopping project $(cat "$prm_dir/.active-$$.tmp")"
             rm "$prm_dir/.active-$$.tmp"
