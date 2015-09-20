@@ -140,7 +140,7 @@ case "$1" in
                         export PS1="[$2] $(cat $prm_dir/.prompt-$$.tmp)"
                     fi
                     echo "Starting project $2"
-                    . $prm_dir/$2/start.sh
+                    /bin/bash --login $prm_dir/$2/start.sh
                 fi
             else
                 echo "$2: No such project"
