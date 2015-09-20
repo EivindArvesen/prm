@@ -65,7 +65,7 @@ case "$1" in
         ;;
     list)
         # List projects
-        if [ ! "`find "$prm_dir" -type d | wc -l`" -gt 1 ]; then
+        if [ ! "$(find "$prm_dir" -type d | wc -l)" -gt 1 ]; then
             echo "No projects exist"
         else
             cd "$prm_dir/" || error "Directory $prm_dir not found"
