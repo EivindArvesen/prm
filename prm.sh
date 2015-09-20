@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 # Copyright (c) 2015 Eivind Arvesen. All Rights Reserved.
+
 COPY="Written by Eivind Arvesen, 2015."
 VERSION=0.1.0
 
@@ -10,17 +11,12 @@ if [ ! -d "$prm_dir" ]; then
     mkdir -p "$prm_dir"
 fi
 
-
 if [[ $(basename "$SHELL") == zsh ]]; then
     prompt_var=RPROMPT
 else
     prompt_var=PS1
 fi
 
-function error() {
-echo "$1"
-exit
-}
 
 function set_prompt_start() {
 if [ ! -e "$prm_dir/.prompt-$$.tmp" ]; then
@@ -45,7 +41,7 @@ eval $prompt_var="'$(cat "$prm_dir/.prompt-$$.tmp")'"
 case "$1" in
     active)
         # List active project "instances"
-        cd "$prm_dir" || error "Directory $prm_dir not found"
+        cd "$prm_dir"
         while IFS= read -r -d '' instance; do
             pid=${instance%.*}
             pid=${pid##*-}
@@ -53,7 +49,7 @@ case "$1" in
                 echo "$pid    $(cat "$instance")"
             fi
         done < <(find . -maxdepth 1 -name '.active*' -print0 -quit)
-        cd - >/dev/null 2>&1 || error "Previous directory unavailable"
+        cd - >/dev/null 2>&1
         ;;
     add)
         # Add project
@@ -93,11 +89,11 @@ case "$1" in
         if [ ! "$(find "$prm_dir" -type d | wc -l)" -gt 1 ]; then
             echo "No projects exist"
         else
-            cd "$prm_dir/" || error "Directory $prm_dir not found"
+            cd "$prm_dir/"
             for active in ./*; do
                 basename "$active"
             done
-            cd - >/dev/null 2>&1 || error "Previous directory unavailable"
+            cd - >/dev/null 2>&1
         fi
         ;;
     remove)
@@ -178,7 +174,7 @@ case "$1" in
             . "$prm_dir/$(cat "$prm_dir/.active-$$.tmp")/stop.sh"
             echo "Stopping project $(cat "$prm_dir/.active-$$.tmp")"
             rm "$prm_dir/.active-$$.tmp"
-            cd "$(cat "$prm_dir/.path-$$.tmp")" || error "Directory $prm_dir/.path-$$.tmp not found"
+            cd "$(cat "$prm_dir/.path-$$.tmp")"
             rm "$prm_dir/.path-$$.tmp"
             set_prompt_finish
             rm "$prm_dir/.prompt-$$.tmp"
@@ -222,7 +218,7 @@ case "$1" in
 esac
 
 # Clean dead project "instances"
-cd "$prm_dir" || error "Directory $prm_dir not found"
+cd "$prm_dir"
 if [ -n "$(find . -maxdepth 1 -name '.active*' -print -quit)" ]; then
     for instance in .active*; do
         pid=${instance%.*}
@@ -232,4 +228,4 @@ if [ -n "$(find . -maxdepth 1 -name '.active*' -print -quit)" ]; then
         fi
     done
 fi
-cd - >/dev/null 2>&1 || error "Previous directory unavailable"
+cd - >/dev/null 2>&1
