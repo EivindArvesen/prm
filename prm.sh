@@ -4,11 +4,7 @@
 COPY="Written by Eivind Arvesen, 2015."
 VERSION=0.1.0
 
-prm_dir="$PRM_DIR"
-
-if [ -z "$prm_dir" ]; then
-        prm_dir=$HOME/.prm
-fi
+prm_dir="${PRM_DIR:-$HOME/.prm}"
 
 if [ ! -d "$prm_dir" ]; then
     mkdir -p "$prm_dir"
