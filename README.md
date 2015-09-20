@@ -8,6 +8,7 @@ See [usage](#usage) for more information.
 
 At present, prm is mostly developed and tested with `bash`, as this is what I personally use and have the most experience with.
 I'm very much open to contributions that fix issues with `zsh` (provided that they don't break `bash` support), and I try to test prm using it every once in a while to the best of my abilities.
+As far as I know, prm currently works with `zsh`.
 
 Regrettably, `fish` is not supported because of syntax incompatibilities.
 See [this issue](https://github.com/eivind88/prm/issues/2) for some details.
@@ -86,8 +87,8 @@ Options:
   -v --version             Display version info.
 ```
 
-By default all prm-data is written to `~/.prm`
-You can set the prm-data directory with the $PRM_PATH env variable.
+You can set the prm data directory with the $PRM_PATH env variable.
+By default all prm data is written to `~/.prm`.
 
 ## Contributing
 Feedback is strongly encouraged. If you run into a bug or would like to see a new feature, please open a new issue. Contributions in the form of code (e.g. implementing new features, bug-fixes) are also appreciated. These should follow the"fork-and-pull" workflow:
