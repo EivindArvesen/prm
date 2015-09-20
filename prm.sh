@@ -82,7 +82,7 @@ case "$1" in
                 echo "Stop project $2 before trying to remove it"
             else
                 if [ -d "$prm_dir/$2" ]; then
-                    rm -rf "$prm_dir/$2/"
+                    rm -rf "${prm_dir:?}/$2/"
                     echo "Removed project $2"
                 else
                     echo "$2: No such project"
