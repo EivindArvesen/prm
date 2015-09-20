@@ -21,16 +21,16 @@ if [ ! -e "$prm_dir/.prompt-$$.tmp" ]; then
     echo "$cur_prompt" > "$prm_dir/.prompt-$$.tmp"
 
     eval "export $prompt_var"
-    eval "$prompt_var=[$1] $cur_prompt"
+    eval $prompt_var="'[$1] $cur_prompt'"
 else
     eval "export $prompt_var"
-    eval "$prompt_var=[$1] $(cat "$prm_dir/.prompt-$$.tmp")"
+    eval $prompt_var="'[$1] $(cat "$prm_dir/.prompt-$$.tmp")'"
 fi
 }
 
 function set_prompt_finish() {
 eval "export $prompt_var"
-eval "$prompt_var=$(cat "$prm_dir/.prompt-$$.tmp")"
+eval $prompt_var="'$(cat "$prm_dir/.prompt-$$.tmp")'"
 }
 
 COPY="Written by Eivind Arvesen, 2015."
