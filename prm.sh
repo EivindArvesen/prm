@@ -24,23 +24,23 @@ case "$1" in
         while IFS= read -r -d '' instance; do
             pid=${instance%.*}
             pid=${pid##*-}
-            if (ps -p $pid > /dev/null); then
-                echo "$pid    $(cat $instance)"
+            if "(ps -p $pid > /dev/null)"; then
+                echo "$pid    $(cat "$instance")"
             fi
         done < <(find . -maxdepth 1 -name '.active*' -print0 -quit)
         cd - >/dev/null 2>&1 || error "Previous directory unavailable"
         ;;
     add)
         # Add project
-        if [ $2 ]; then
-            if [ -d $prm_dir/$2 ]; then
+        if [ "$2" ]; then
+            if [ -d "$prm_dir/$2" ]; then
                 echo "Project $2 already exists"
                 # exit
             else
-                mkdir -p $prm_dir/$2
-                printf "#!/usr/bin/env bash\n\n# This script will run when STARTING the project \"%s\"\n# Here you might want to cd into your project directory, activate virtualenvs, etc.\n\n" "$2" > $prm_dir/$2/start.sh
-                printf "#!/usr/bin/env bash\n\n# This script will run when STOPPING the project \"%s\"\n# Here you might want to deactivate virtualenvs, clean up temporary files, etc.\n\n" "$2" > $prm_dir/$2/stop.sh
-                $EDITOR $prm_dir/$2/start.sh && $EDITOR $prm_dir/$2/stop.sh
+                mkdir -p "$prm_dir/$2"
+                printf "#!/usr/bin/env bash\n\n# This script will run when STARTING the project \"%s\"\n# Here you might want to cd into your project directory, activate virtualenvs, etc.\n\n" "$2" > "$prm_dir/$2/start.sh"
+                printf "#!/usr/bin/env bash\n\n# This script will run when STOPPING the project \"%s\"\n# Here you might want to deactivate virtualenvs, clean up temporary files, etc.\n\n" "$2" > "$prm_dir/$2/stop.sh"
+                $EDITOR "$prm_dir/$2/start.sh" && $EDITOR "$prm_dir/$2/stop.sh"
                 echo "Added project $2"
             fi
         else
@@ -50,9 +50,9 @@ case "$1" in
         ;;
     edit)
         # Edit project
-        if [ $2 ]; then
-            if [ -d $prm_dir/$2 ]; then
-                $EDITOR $prm_dir/$2/start.sh && $EDITOR $prm_dir/$2/stop.sh
+        if [ "$2" ]; then
+            if [ -d "$prm_dir/$2" ]; then
+                $EDITOR "$prm_dir/$2/start.sh" && $EDITOR "$prm_dir/$2/stop.sh"
                 echo "Edited project $2"
             else
                 echo "$2: No such project"
@@ -65,7 +65,7 @@ case "$1" in
         ;;
     list)
         # List projects
-        if [ ! `find $prm_dir -type d | wc -l` -gt 1 ]; then
+        if [ ! "`find "$prm_dir" -type d | wc -l`" -gt 1 ]; then
             echo "No projects exist"
         else
             cd "$prm_dir/" || error "Directory $prm_dir not found"
@@ -77,11 +77,11 @@ case "$1" in
         ;;
     remove)
         # Remove project
-        if [ $2 ]; then
-            if [ -e $prm_dir/.active-$$.tmp ] && [ $(cat $prm_dir/.active-$$.tmp)==$2 ]; then
+        if [ "$2" ]; then
+            if [ -e "$prm_dir/.active-$$.tmp" ] && [ "$(cat "$prm_dir/.active-$$.tmp")"=="$2" ]; then
                 echo "Stop project $2 before trying to remove it"
             else
-                if [ -d $prm_dir/$2 ]; then
+                if [ -d "$prm_dir/$2" ]; then
                     rm -rf "$prm_dir/$2/"
                     echo "Removed project $2"
                 else
@@ -96,15 +96,15 @@ case "$1" in
         ;;
     rename)
         # Rename project
-        if [ -e $prm_dir/.active-$$.tmp ] && [ $(cat $prm_dir/.active-$$.tmp)==$2 ]; then
+        if [ -e "$prm_dir/.active-$$.tmp" ] && [ "$(cat "$prm_dir/.active-$$.tmp")"=="$2" ]; then
             echo "Stop project $2 before trying to rename it"
         else
-            if [ $2 ]; then
-                if [ ! -d $prm_dir/$2 ]; then
+            if [ "$2" ]; then
+                if [ ! -d "$prm_dir/$2" ]; then
                     echo "$2: No such project"
                 else
-                    if [ $3 ]; then
-                        if [ -d $prm_dir/$3 ]; then
+                    if [ "$3" ]; then
+                        if [ -d "$prm_dir/$3" ]; then
                             echo "Project $3 already exists"
                         else
                             mv "$prm_dir/$2" "$prm_dir/$3"
@@ -122,26 +122,26 @@ case "$1" in
         ;;
     start)
         # Start project
-        if [ $2 ]; then
-            if [ -d $prm_dir/$2 ]; then
-                if [ -e $prm_dir/.active-$$.tmp ] && [ $(cat $prm_dir/.active-$$.tmp)==$2 ]; then
+        if [ "$2" ]; then
+            if [ -d "$prm_dir/$2" ]; then
+                if [ -e "$prm_dir/.active-$$.tmp" ] && [ "$(cat "$prm_dir/.active-$$.tmp")"=="$2" ]; then
                     echo "Project $2 is already active"
                 else
-                    if [ ! -e $prm_dir/.path-$$.tmp ]; then
-                        pwd > $prm_dir/.path-$$.tmp
+                    if [ ! -e "$prm_dir/.path-$$.tmp" ]; then
+                        pwd > "$prm_dir/.path-$$.tmp"
                     fi
-                    if [ -e $prm_dir/.active-$$.tmp ]; then
-                        . $prm_dir/$(cat $prm_dir/.active-$$.tmp)/stop.sh
+                    if [ -e "$prm_dir/.active-$$.tmp" ]; then
+                        . "$prm_dir/$(cat "$prm_dir/.active-$$.tmp")/stop.sh"
                     fi
-                    echo $2 > $prm_dir/.active-$$.tmp
-                    if [ ! -e $prm_dir/.prompt-$$.tmp ]; then
-                        echo "$PS1" > $prm_dir/.prompt-$$.tmp
+                    echo "$2" > "$prm_dir/.active-$$.tmp"
+                    if [ ! -e "$prm_dir/.prompt-$$.tmp" ]; then
+                        echo "$PS1" > "$prm_dir/.prompt-$$.tmp"
                         export PS1="[$2] $PS1"
                     else
-                        export PS1="[$2] $(cat $prm_dir/.prompt-$$.tmp)"
+                        export PS1="[$2] $(cat "$prm_dir/.prompt-$$.tmp")"
                     fi
                     echo "Starting project $2"
-                    . $prm_dir/$2/start.sh
+                    . "$prm_dir/$2/start.sh"
                 fi
             else
                 echo "$2: No such project"
@@ -154,14 +154,14 @@ case "$1" in
         ;;
     stop)
         # Stop project
-        if [ -e $prm_dir/.active-$$.tmp ]; then
-            . $prm_dir/$(cat $prm_dir/.active-$$.tmp)/stop.sh
-            echo "Stopping project $(cat $prm_dir/.active-$$.tmp)"
-            rm $prm_dir/.active-$$.tmp
+        if [ -e "$prm_dir/.active-$$.tmp" ]; then
+            . "$prm_dir/$(cat "$prm_dir/.active-$$.tmp")/stop.sh"
+            echo "Stopping project $(cat "$prm_dir/.active-$$.tmp")"
+            rm "$prm_dir/.active-$$.tmp"
             cd "$(cat "$prm_dir/.path-$$.tmp")" || error "Directory $prm_dir/.path-$$.tmp not found"
-            rm $prm_dir/.path-$$.tmp
-            export PS1="$(cat $prm_dir/.prompt-$$.tmp)"
-            rm $prm_dir/.prompt-$$.tmp
+            rm "$prm_dir/.path-$$.tmp"
+            export PS1="$(cat "$prm_dir/.prompt-$$.tmp")"
+            rm "$prm_dir/.prompt-$$.tmp"
         else
             echo "No active project"
             # exit
@@ -207,8 +207,8 @@ if [ -n "$(find . -maxdepth 1 -name '.active*' -print -quit)" ]; then
     for instance in .active*; do
         pid=${instance%.*}
         pid=${pid##*-}
-        if (! ps -p $pid > /dev/null); then
-            rm $prm_dir/.active-$pid.tmp $prm_dir/.path-$pid.tmp $prm_dir/.prompt-$pid.tmp
+        if (! ps -p "$pid" > /dev/null); then
+            rm "$prm_dir/.active-$pid.tmp" "$prm_dir/.path-$pid.tmp" "$prm_dir/.prompt-$pid.tmp"
         fi
     done
 fi
