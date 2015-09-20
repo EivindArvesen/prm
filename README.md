@@ -76,10 +76,10 @@ From the help option screen:
 Usage: prm [options] ...
 Options:
   active                   List active project instances.
-  add <project name>       Add project.
-  edit <project name>      Edit project.
+  add <project name>       Add project(s).
+  edit <project name>      Edit project(s).
   list                     List all projects.
-  remove <project name>    Remove project.
+  remove <project name>    Remove project(s).
   rename <old> <new>       Rename project.
   start <project name>     Start project.
   stop                     Stop active project.

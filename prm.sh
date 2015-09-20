@@ -54,16 +54,18 @@ case "$1" in
     add)
         # Add project
         if [ "$2" ]; then
-            if [ -d "$prm_dir/$2" ]; then
-                echo "Project $2 already exists"
-                # exit
-            else
-                mkdir -p "$prm_dir/$2"
-                printf "#!/usr/bin/env bash\n\n# This script will run when STARTING the project \"%s\"\n# Here you might want to cd into your project directory, activate virtualenvs, etc.\n\n" "$2" > "$prm_dir/$2/start.sh"
-                printf "#!/usr/bin/env bash\n\n# This script will run when STOPPING the project \"%s\"\n# Here you might want to deactivate virtualenvs, clean up temporary files, etc.\n\n" "$2" > "$prm_dir/$2/stop.sh"
-                $EDITOR "$prm_dir/$2/start.sh" && $EDITOR "$prm_dir/$2/stop.sh"
-                echo "Added project $2"
-            fi
+            for argument in "${@:2}"; do
+                if [ -d "$prm_dir/$argument" ]; then
+                    echo "Project $argument already exists"
+                    # exit
+                else
+                    mkdir -p "$prm_dir/$argument"
+                    printf "#!/usr/bin/env bash\n\n# This script will run when STARTING the project \"%s\"\n# Here you might want to cd into your project directory, activate virtualenvs, etc.\n\n" "$argument" > "$prm_dir/$argument/start.sh"
+                    printf "#!/usr/bin/env bash\n\n# This script will run when STOPPING the project \"%s\"\n# Here you might want to deactivate virtualenvs, clean up temporary files, etc.\n\n" "$argument" > "$prm_dir/$argument/stop.sh"
+                    $EDITOR "$prm_dir/$argument/start.sh" && $EDITOR "$prm_dir/$argument/stop.sh"
+                    echo "Added project $argument"
+                fi
+            done
         else
             echo "No name given"
             # exit
@@ -72,13 +74,15 @@ case "$1" in
     edit)
         # Edit project
         if [ "$2" ]; then
-            if [ -d "$prm_dir/$2" ]; then
-                $EDITOR "$prm_dir/$2/start.sh" && $EDITOR "$prm_dir/$2/stop.sh"
-                echo "Edited project $2"
-            else
-                echo "$2: No such project"
-                # exit
-            fi
+            for argument in "${@:2}"; do
+                if [ -d "$prm_dir/$argument" ]; then
+                    $EDITOR "$prm_dir/$argument/start.sh" && $EDITOR "$prm_dir/$argument/stop.sh"
+                    echo "Edited project $argument"
+                else
+                    echo "$argument: No such project"
+                    # exit
+                fi
+            done
         else
             echo "No name given"
             # exit
@@ -99,17 +103,19 @@ case "$1" in
     remove)
         # Remove project
         if [ "$2" ]; then
-            if [ -e "$prm_dir/.active-$$.tmp" ] && [ "$(cat "$prm_dir/.active-$$.tmp")" == "$2" ]; then
-                echo "Stop project $2 before trying to remove it"
-            else
-                if [ -d "$prm_dir/$2" ]; then
-                    rm -rf "${prm_dir:?}/$2/"
-                    echo "Removed project $2"
+            for argument in "${@:2}"; do
+                if [ -e "$prm_dir/.active-$$.tmp" ] && [ "$(cat "$prm_dir/.active-$$.tmp")" == "$argument" ]; then
+                    echo "Stop project $argument before trying to remove it"
                 else
-                    echo "$2: No such project"
-                    # exit
+                    if [ -d "$prm_dir/$argument" ]; then
+                        rm -rf "${prm_dir:?}/$argument/"
+                        echo "Removed project $argument"
+                    else
+                        echo "$argument: No such project"
+                        # exit
+                    fi
                 fi
-            fi
+            done
         else
             echo "No name given"
             # exit
@@ -188,10 +194,10 @@ case "$1" in
         echo "Usage: prm [options] ..."
         echo "Options:"
         echo "  active                   List active project instances."
-        echo "  add <project name>       Add project."
-        echo "  edit <project name>      Edit project."
+        echo "  add <project name>       Add project(s)."
+        echo "  edit <project name>      Edit project(s)."
         echo "  list                     List all projects."
-        echo "  remove <project name>    Remove project."
+        echo "  remove <project name>    Remove project(s)."
         echo "  rename <old> <new>       Rename project."
         echo "  start <project name>     Start project."
         echo "  stop                     Stop active project."
