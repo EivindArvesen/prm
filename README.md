@@ -77,6 +77,7 @@ Usage: prm [options] ...
 Options:
   active                   List active project instances.
   add <project name>       Add project(s).
+  copy <old> <new>         Copy project.
   edit <project name>      Edit project(s).
   list                     List all projects.
   remove <project name>    Remove project(s).

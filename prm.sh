@@ -71,6 +71,30 @@ case "$1" in
             # exit
         fi
         ;;
+    copy)
+        # Copy project
+        if [ "$2" ]; then
+            if [ ! -d "$prm_dir/$2" ]; then
+                echo "$2: No such project"
+            else
+                if [ "$3" ]; then
+                    if [ -d "$prm_dir/$3" ]; then
+                        echo "Project $3 already exists"
+                    else
+                        cp -r "$prm_dir/$2" "$prm_dir/$3"
+                        sed -i -e "s/\"$2\"/\"$3\"/g" $prm_dir/$3/*.sh
+                        $EDITOR "$prm_dir/$argument/start.sh" && $EDITOR "$prm_dir/$argument/stop.sh"
+                        echo "Copied project $2 to $3"
+                    fi
+                else
+                    echo "No new name given"
+                fi
+            fi
+        else
+            echo "No name given"
+            # exit
+        fi
+        ;;
     edit)
         # Edit project
         if [ "$2" ]; then
@@ -195,6 +219,7 @@ case "$1" in
         echo "Options:"
         echo "  active                   List active project instances."
         echo "  add <project name>       Add project(s)."
+        echo "  copy <old> <new>         Copy project."
         echo "  edit <project name>      Edit project(s)."
         echo "  list                     List all projects."
         echo "  remove <project name>    Remove project(s)."
