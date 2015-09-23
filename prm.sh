@@ -37,7 +37,6 @@ function prm_help() {
     echo "Please report bugs at https://github.com/eivind88/prm"
     echo "Remember that prm MUST be sourced - not run in a subshell."
     echo "I.e. '. ./prm'"
-    # exit
 }
 
 function prm_usage() {
@@ -84,7 +83,6 @@ case "$1" in
             for argument in "${@:2}"; do
                 if [ -d "$prm_dir/$argument" ]; then
                     echo "Project $argument already exists"
-                    # exit
                 else
                     mkdir -p "$prm_dir/$argument"
                     printf "#!/usr/bin/env bash\n\n# This script will run when STARTING the project \"%s\"\n# Here you might want to cd into your project directory, activate virtualenvs, etc.\n\n" "$argument" > "$prm_dir/$argument/start.sh"
@@ -95,7 +93,6 @@ case "$1" in
             done
         else
             echo "No name given"
-            # exit
         fi
         ;;
     copy)
@@ -119,7 +116,6 @@ case "$1" in
             fi
         else
             echo "No name given"
-            # exit
         fi
         ;;
     edit)
@@ -131,12 +127,10 @@ case "$1" in
                     echo "Edited project $argument"
                 else
                     echo "$argument: No such project"
-                    # exit
                 fi
             done
         else
             echo "No name given"
-            # exit
         fi
         ;;
     list)
@@ -163,13 +157,11 @@ case "$1" in
                         echo "Removed project $argument"
                     else
                         echo "$argument: No such project"
-                        # exit
                     fi
                 fi
             done
         else
             echo "No name given"
-            # exit
         fi
         ;;
     rename)
@@ -194,7 +186,6 @@ case "$1" in
                 fi
             else
                 echo "No name given"
-                # exit
             fi
         fi
         ;;
@@ -218,11 +209,9 @@ case "$1" in
                 fi
             else
                 echo "$2: No such project"
-                # exit
             fi
         else
             echo "No name given"
-            # exit
         fi
         ;;
     stop)
@@ -237,7 +226,6 @@ case "$1" in
             rm -f "$prm_dir/.prompt-$$.tmp"
         else
             echo "No active project"
-            # exit
         fi
         ;;
     -h|--help)
@@ -247,7 +235,6 @@ case "$1" in
         # Version-Screen
         echo "prm $VERSION."
         echo "$COPY"
-        # exit
         ;;
     *)
         if [ -z "$1" ]; then
@@ -257,7 +244,6 @@ case "$1" in
             # Error-Screen
             echo "prm: illegal option -- $1 (see \"prm --help\" for help)"
             prm_usage
-            # exit
         fi
         ;;
 esac
