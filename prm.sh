@@ -19,7 +19,8 @@ fi
 
 function prm_help() {
      # Help-Screen
-    echo "Usage: prm [options] ..."
+    prm_usage
+    echo ""
     echo "Options:"
     echo "  active                   List active project instances."
     echo "  add <project name>       Add project(s)."
@@ -37,6 +38,11 @@ function prm_help() {
     echo "Remember that prm MUST be sourced - not run in a subshell."
     echo "I.e. '. ./prm'"
     # exit
+}
+
+function prm_usage() {
+     # Usage-sentence
+    echo "usage: prm <option> [<args>] ..."
 }
 
 function set_prompt_start() {
@@ -250,7 +256,7 @@ case "$1" in
         else
             # Error-Screen
             echo "prm: illegal option -- $1 (see \"prm --help\" for help)"
-            echo "usage: prm [options] ..."
+            prm_usage
             # exit
         fi
         ;;
