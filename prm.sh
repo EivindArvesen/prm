@@ -17,6 +17,33 @@ else
     prompt_var=PS1
 fi
 
+function prm_help() {
+     # Help-Screen
+    prm_usage
+    echo ""
+    echo "Options:"
+    echo "  active                   List active project instances."
+    echo "  add <project name>       Add project(s)."
+    echo "  copy <old> <new>         Copy project."
+    echo "  edit <project name>      Edit project(s)."
+    echo "  list                     List all projects."
+    echo "  remove <project name>    Remove project(s)."
+    echo "  rename <old> <new>       Rename project."
+    echo "  start <project name>     Start project."
+    echo "  stop                     Stop active project."
+    echo "  -h --help                Display this information."
+    echo "  -v --version             Display version info."
+    echo ""
+    echo "Please report bugs at https://github.com/eivind88/prm"
+    echo "Remember that prm MUST be sourced - not run in a subshell."
+    echo "I.e. '. ./prm'"
+    # exit
+}
+
+function prm_usage() {
+     # Usage-sentence
+    echo "usage: prm <option> [<args>] ..."
+}
 
 function set_prompt_start() {
 if [ ! -e "$prm_dir/.prompt-$$.tmp" ]; then
@@ -214,25 +241,7 @@ case "$1" in
         fi
         ;;
     -h|--help)
-        # Help-Screen
-        echo "Usage: prm [options] ..."
-        echo "Options:"
-        echo "  active                   List active project instances."
-        echo "  add <project name>       Add project(s)."
-        echo "  copy <old> <new>         Copy project."
-        echo "  edit <project name>      Edit project(s)."
-        echo "  list                     List all projects."
-        echo "  remove <project name>    Remove project(s)."
-        echo "  rename <old> <new>       Rename project."
-        echo "  start <project name>     Start project."
-        echo "  stop                     Stop active project."
-        echo "  -h --help                Display this information."
-        echo "  -v --version             Display version info."
-        echo ""
-        echo "Please report bugs at https://github.com/eivind88/prm"
-        echo "Remember that prm MUST be sourced - not run in a subshell."
-        echo "I.e. '. ./prm'"
-        # exit
+        prm_help
         ;;
     -v|--version)
         # Version-Screen
@@ -241,10 +250,15 @@ case "$1" in
         # exit
         ;;
     *)
-        # Error-Screen
-        echo "prm: illegal option -- $1"
-        echo "usage: prm [options] ..."
-        # exit
+        if [ -z "$1" ]; then
+            # Bare command
+            prm_help
+        else
+            # Error-Screen
+            echo "prm: illegal option -- $1 (see \"prm --help\" for help)"
+            prm_usage
+            # exit
+        fi
         ;;
 esac
 

@@ -73,7 +73,8 @@ alias prm=". path/to/prm.sh"
 From the help option screen:
 
 ```bash
-Usage: prm [options] ...
+usage: prm <option> [<args>] ...
+
 Options:
   active                   List active project instances.
   add <project name>       Add project(s).
