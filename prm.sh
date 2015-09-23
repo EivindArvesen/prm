@@ -245,13 +245,12 @@ case "$1" in
         ;;
     *)
         if [ -z "$1" ]; then
+            # Bare command
             prm_help
         else
             # Error-Screen
-            echo "prm: illegal option -- $1"
+            echo "prm: illegal option -- $1 (see \"prm --help\" for help)"
             echo "usage: prm [options] ..."
-            echo ""
-            prm_help
             # exit
         fi
         ;;
