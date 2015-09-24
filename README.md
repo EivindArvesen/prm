@@ -65,12 +65,14 @@ For instance, if you'd like some python-based projects to list the number of out
 echo "$((($(conda search --outdated --names-only | wc -l)-1))) outdated packages in env"
 ```
 
-as e.g. `conda-list-outdated.sh` in `$PRM_PATH/.common/`.
+as e.g. `conda-list-outdated.sh` in `$PRM_PATH/.common/` (this environment variable is detailed in [usage](#usage)).
 You can then load this script in your start- and stop-scripts like so:
 
 ```bash
 prm_load conda-list-outdated
 ```
+
+Additionally, if you need the name of the currently active project, this is available via the `$PRM_ACTIVE_PROJECT` environment variable.
 
 ## Why?
 I found myself missing project management features (like those seen in text editors and IDEs) on the terminal.
