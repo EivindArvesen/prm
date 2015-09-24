@@ -56,6 +56,22 @@ When you activate a new project, prm automatically stops any active project in t
 
 When a project is deactivated, prm changes the working directory back to the path you were originally on before starting your first project.
 
+### Reusability
+If you often create projects similar to one you already have, you can load custom scripts from your projects' `start.sh` and `stop.sh`.
+For instance, if you'd like some python-based projects to list the number of outdated packages in their conda envs, you can save
+
+```bash
+# count outdated packages in conda env
+echo "$((($(conda search --outdated --names-only | wc -l)-1))) outdated packages in env"
+```
+
+as e.g. `conda-list-outdated.sh` in `$PRM_PATH/.common/`.
+You can then load this script in your start- and stop-scripts like so:
+
+```bash
+prm_load conda-list-outdated
+```
+
 ## Why?
 I found myself missing project management features (like those seen in text editors and IDEs) on the terminal.
 
@@ -89,7 +105,7 @@ Options:
   -v --version             Display version info.
 ```
 
-You can set the prm data directory with the `$PRM_PATH environment variable.
+You can set the prm data directory with the `$PRM_PATH` environment variable.
 By default all prm data is written to `~/.prm`.
 
 ## Contributing
