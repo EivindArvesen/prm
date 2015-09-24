@@ -89,7 +89,7 @@ Options:
   -v --version             Display version info.
 ```
 
-You can set the prm data directory with the $PRM_PATH env variable.
+You can set the prm data directory with the `$PRM_PATH environment variable.
 By default all prm data is written to `~/.prm`.
 
 ## Contributing
