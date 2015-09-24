@@ -7,8 +7,9 @@ VERSION=0.2.0
 
 prm_dir="${PRM_DIR:-$HOME/.prm}"
 
-if [ ! -d "$prm_dir" ]; then
-    mkdir -p "$prm_dir"
+if [ ! -d "$prm_dir/.common" ]; then
+    # Create deepest directory needed (including its parents)
+    mkdir -p "$prm_dir/.common"
 fi
 
 if [[ $(basename "$SHELL") == zsh ]]; then
@@ -17,8 +18,17 @@ else
     prompt_var=PS1
 fi
 
+function prm_load() {
+    # Loader-function to enable reusable components in projects
+    if [ -f "$prm_dir/.common/$1.sh" ]; then
+        . "$prm_dir/.common/$1.sh"
+    else
+        echo "Could not load user script $1"
+    fi
+}
+
 function prm_help() {
-     # Help-Screen
+    # Help-Screen
     prm_usage
     echo ""
     echo "Options:"
@@ -229,6 +239,7 @@ case "$1" in
         fi
         ;;
     -h|--help)
+        # Help-Screen
         prm_help
         ;;
     -v|--version)
