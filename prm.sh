@@ -211,11 +211,13 @@ case "$1" in
                     fi
                     if [ -e "$prm_dir/.active-$$.tmp" ]; then
                         . "$prm_dir/$(cat "$prm_dir/.active-$$.tmp")/stop.sh"
+                        PRM_ACTIVE_PROJECT=""
                     fi
                     echo "$2" > "$prm_dir/.active-$$.tmp"
                     set_prompt_start "$2"
                     echo "Starting project $2"
                     . "$prm_dir/$2/start.sh"
+                    PRM_ACTIVE_PROJECT=$2
                 fi
             else
                 echo "$2: No such project"
@@ -234,6 +236,7 @@ case "$1" in
             rm -f "$prm_dir/.path-$$.tmp"
             set_prompt_finish
             rm -f "$prm_dir/.prompt-$$.tmp"
+            PRM_ACTIVE_PROJECT=""
         else
             echo "No active project"
         fi
