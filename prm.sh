@@ -54,6 +54,14 @@ function prm_usage() {
     echo "usage: prm <option> [<args>] ..."
 }
 
+function check_editor() {
+    if [ -z "$EDITOR" ]; then
+        echo "\$EDITOR is not set."
+        echo "You will not be able to add, copy or edit projects."
+        return 1
+    fi
+}
+
 function set_prompt_start() {
 if [ ! -e "$prm_dir/.prompt-$$.tmp" ]; then
     cur_prompt=""
@@ -94,6 +102,7 @@ case "$1" in
                 if [ -d "$prm_dir/$argument" ]; then
                     echo "Project $argument already exists"
                 else
+                    check_editor || return
                     mkdir -p "$prm_dir/$argument"
                     printf "#!/usr/bin/env bash\n\n# This script will run when STARTING the project \"%s\"\n# Here you might want to cd into your project directory, activate virtualenvs, etc.\n\n# The currently active project is available via \$PRM_ACTIVE_PROJECT\n# Command line arguments can be used, \$3 would be the first argument after your project name.\n\n" "$argument" > "$prm_dir/$argument/start.sh"
                     printf "#!/usr/bin/env bash\n\n# This script will run when STOPPING the project \"%s\"\n# Here you might want to deactivate virtualenvs, clean up temporary files, etc.\n\n# The currently active project is available via \$PRM_ACTIVE_PROJECT\n# Command line arguments can be used, \$3 would be the first argument after your project name.\n\n" "$argument" > "$prm_dir/$argument/stop.sh"
@@ -115,6 +124,7 @@ case "$1" in
                     if [ -d "$prm_dir/$3" ]; then
                         echo "Project $3 already exists"
                     else
+                        check_editor || return
                         cp -r "$prm_dir/$2" "$prm_dir/$3"
                         sed -i -e "s/\"$2\"/\"$3\"/g" $prm_dir/$3/*.sh
                         $EDITOR "$prm_dir/$argument/start.sh" && $EDITOR "$prm_dir/$argument/stop.sh"
@@ -133,6 +143,7 @@ case "$1" in
         if [ "$2" ]; then
             for argument in "${@:2}"; do
                 if [ -d "$prm_dir/$argument" ]; then
+                    check_editor || return
                     $EDITOR "$prm_dir/$argument/start.sh" && $EDITOR "$prm_dir/$argument/stop.sh"
                     echo "Edited project $argument"
                 else
