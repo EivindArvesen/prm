@@ -113,16 +113,9 @@ You can set the prm data directory with the `$PRM_PATH` environment variable.
 By default all prm data is written to `~/.prm`.
 
 ## Contributing
-Feedback is strongly encouraged. If you run into a bug or would like to see a new feature, please open a new issue. Contributions in the form of code (e.g. implementing new features, bug-fixes) are also appreciated. These should follow the"fork-and-pull" workflow:
+Feedback is strongly encouraged. If you run into a bug or would like to see a new feature, please open a new issue.
 
-1. Fork the repo on Github
-2. Create a branch
-3. Make and commit your changes
-4. Sync (fetch and merge) with "upstream"
-5. Push your changes to your branch on Github
-6. Open a pull request "upstream" with your changes
-
-Pull requests should explain clearly what changes have been made, and why they have been made. They should also reference any relevant issues.
+Contributions in the form of code (e.g. implementing new features, bug-fixes) are also appreciated. For information about this, see the [Wiki page on Contributing](https://github.com/eivind88/prm/wiki/Contributing).
 
 ## License
 This software is released under the terms of the 3-clause New BSD License. See the [license](LICENSE.txt) file for details.
