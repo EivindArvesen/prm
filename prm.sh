@@ -18,12 +18,20 @@ else
     prompt_var=PS1
 fi
 
+function return_error() {
+    # Print error message and return error code
+    if [ -z "$2" ]; then
+        echo "$2"
+    fi
+    return "$1"
+}
+
 function prm_load() {
     # Loader-function to enable reusable components in projects
     if [ -f "$prm_dir/.common/$1.sh" ]; then
         . "$prm_dir/.common/$1.sh"
     else
-        echo "Could not load user script $1"
+        return_error 1 "Could not load user script $1"
     fi
 }
 
@@ -85,7 +93,7 @@ eval $prompt_var="'$(cat "$prm_dir/.prompt-$$.tmp")'"
 case "$1" in
     active)
         # List active project "instances"
-        cd "$prm_dir"
+        cd "$prm_dir" >/dev/null 2>&1 || return_error 1 "Directory $prm_dir does not exist."
         while IFS= read -r -d '' instance; do
             pid=${instance%.*}
             pid=${pid##*-}
@@ -93,14 +101,14 @@ case "$1" in
                 echo "$pid    $(cat "$instance")"
             fi
         done < <(find . -maxdepth 1 -name '.active*' -print0 -quit)
-        cd - >/dev/null 2>&1
+        cd - >/dev/null 2>&1 || return_error 1 "Previous directory not available."
         ;;
     add)
         # Add project
         if [ "$2" ]; then
             for argument in "${@:2}"; do
                 if [ -d "$prm_dir/$argument" ]; then
-                    echo "Project $argument already exists"
+                    return_error 1 "Project $argument already exists"
                 else
                     check_editor || return
                     mkdir -p "$prm_dir/$argument"
@@ -111,18 +119,18 @@ case "$1" in
                 fi
             done
         else
-            echo "No name given"
+            return_error 1 "No name given"
         fi
         ;;
     copy)
         # Copy project
         if [ "$2" ]; then
             if [ ! -d "$prm_dir/$2" ]; then
-                echo "$2: No such project"
+                return_error 1 "$2: No such project"
             else
                 if [ "$3" ]; then
                     if [ -d "$prm_dir/$3" ]; then
-                        echo "Project $3 already exists"
+                        return_error 1 "Project $3 already exists"
                     else
                         check_editor || return
                         cp -r "$prm_dir/$2" "$prm_dir/$3"
@@ -131,11 +139,11 @@ case "$1" in
                         echo "Copied project $2 to $3"
                     fi
                 else
-                    echo "No new name given"
+                    return_error 1 "No new name given"
                 fi
             fi
         else
-            echo "No name given"
+            return_error 1 "No name given"
         fi
         ;;
     edit)
@@ -147,23 +155,23 @@ case "$1" in
                     $EDITOR "$prm_dir/$argument/start.sh" && $EDITOR "$prm_dir/$argument/stop.sh"
                     echo "Edited project $argument"
                 else
-                    echo "$argument: No such project"
+                    return_error 1 "$argument: No such project"
                 fi
             done
         else
-            echo "No name given"
+            return_error 1 "No name given"
         fi
         ;;
     list)
         # List projects
         if [ ! "$(find "$prm_dir" -type d | wc -l)" -gt 1 ]; then
-            echo "No projects exist"
+            return_error 1 "No projects exist"
         else
-            cd "$prm_dir/"
+            cd "$prm_dir/" >/dev/null 2>&1 || return_error 1 "Directory $prm_dir does not exist."
             for active in ./*; do
                 basename "$active"
             done
-            cd - >/dev/null 2>&1
+            cd - >/dev/null 2>&1 || return_error 1 "Previous directory not available."
         fi
         ;;
     remove)
@@ -171,42 +179,42 @@ case "$1" in
         if [ "$2" ]; then
             for argument in "${@:2}"; do
                 if [ -e "$prm_dir/.active-$$.tmp" ] && [ "$(cat "$prm_dir/.active-$$.tmp")" == "$argument" ]; then
-                    echo "Stop project $argument before trying to remove it"
+                    return_error 1 "Stop project $argument before trying to remove it"
                 else
                     if [ -d "$prm_dir/$argument" ]; then
                         rm -rf "${prm_dir:?}/$argument/"
                         echo "Removed project $argument"
                     else
-                        echo "$argument: No such project"
+                        return_error 1 "$argument: No such project"
                     fi
                 fi
             done
         else
-            echo "No name given"
+            return_error 1 "No name given"
         fi
         ;;
     rename)
         # Rename project
         if [ -e "$prm_dir/.active-$$.tmp" ] && [ "$(cat "$prm_dir/.active-$$.tmp")" == "$2" ]; then
-            echo "Stop project $2 before trying to rename it"
+            return_error 1 "Stop project $2 before trying to rename it"
         else
             if [ "$2" ]; then
                 if [ ! -d "$prm_dir/$2" ]; then
-                    echo "$2: No such project"
+                    return_error 1 "$2: No such project"
                 else
                     if [ "$3" ]; then
                         if [ -d "$prm_dir/$3" ]; then
-                            echo "Project $3 already exists"
+                            return_error 1 "Project $3 already exists"
                         else
                             mv "$prm_dir/$2" "$prm_dir/$3"
                             echo "Renamed project $2 $3"
                         fi
                     else
-                        echo "No new name given"
+                        return_error 1 "No new name given"
                     fi
                 fi
             else
-                echo "No name given"
+                return_error 1 "No name given"
             fi
         fi
         ;;
@@ -215,7 +223,7 @@ case "$1" in
         if [ "$2" ]; then
             if [ -d "$prm_dir/$2" ]; then
                 if [ -e "$prm_dir/.active-$$.tmp" ] && [ "$(cat "$prm_dir/.active-$$.tmp")" == "$2" ]; then
-                    echo "Project $2 is already active"
+                    return_error 1 "Project $2 is already active"
                 else
                     if [ ! -e "$prm_dir/.path-$$.tmp" ]; then
                         pwd > "$prm_dir/.path-$$.tmp"
@@ -231,10 +239,10 @@ case "$1" in
                     PRM_ACTIVE_PROJECT=$2
                 fi
             else
-                echo "$2: No such project"
+                return_error 1 "$2: No such project"
             fi
         else
-            echo "No name given"
+            return_error 1 "No name given"
         fi
         ;;
     stop)
@@ -243,13 +251,13 @@ case "$1" in
             . "$prm_dir/$(cat "$prm_dir/.active-$$.tmp")/stop.sh"
             echo "Stopping project $(cat "$prm_dir/.active-$$.tmp")"
             rm -f "$prm_dir/.active-$$.tmp"
-            cd "$(cat "$prm_dir/.path-$$.tmp")"
+            cd "$(cat "$prm_dir/.path-$$.tmp")" >/dev/null 2>&1 || return_error 1 "Could not change directory to original path."
             rm -f "$prm_dir/.path-$$.tmp"
             set_prompt_finish
             rm -f "$prm_dir/.prompt-$$.tmp"
             PRM_ACTIVE_PROJECT=""
         else
-            echo "No active project"
+            return_error 1 "No active project"
         fi
         ;;
     -h|--help)
@@ -267,14 +275,14 @@ case "$1" in
             prm_help
         else
             # Error-Screen
-            echo "prm: illegal option -- $1 (see \"prm --help\" for help)"
+            return_error 1 "prm: illegal option -- $1 (see \"prm --help\" for help)"
             prm_usage
         fi
         ;;
 esac
 
 # Clean dead project "instances"
-cd "$prm_dir"
+cd "$prm_dir" >/dev/null 2>&1 || return_error 1 "Directory $prm_dir does not exist."
 if [ -n "$(find . -maxdepth 1 -name '.active*' -print -quit)" ]; then
     for instance in .active*; do
         pid=${instance%.*}
@@ -285,4 +293,4 @@ if [ -n "$(find . -maxdepth 1 -name '.active*' -print -quit)" ]; then
         fi
     done
 fi
-cd - >/dev/null 2>&1
+cd - >/dev/null 2>&1 || return_error 1 "Previous directory not available."
