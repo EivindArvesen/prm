@@ -58,11 +58,12 @@ function prm_help() {
 }
 
 function prm_usage() {
-     # Usage-sentence
+    # Usage-sentence
     echo "usage: prm <option> [<args>] ..."
 }
 
 function check_editor() {
+    # Checking if editor-variable is set
     if [ -z "$EDITOR" ]; then
         echo "\$EDITOR is not set."
         echo "You will not be able to add, copy or edit projects."
@@ -71,26 +72,29 @@ function check_editor() {
 }
 
 function set_prompt_start() {
-if [ ! -e "$prm_dir/.prompt-$$.tmp" ]; then
-    cur_prompt=""
-    eval "cur_prompt=\$$prompt_var"
+    # Change prompt to include named of active prm project
+    if [ ! -e "$prm_dir/.prompt-$$.tmp" ]; then
+        cur_prompt=""
+        eval "cur_prompt=\$$prompt_var"
 
-    echo "$cur_prompt" > "$prm_dir/.prompt-$$.tmp"
+        echo "$cur_prompt" > "$prm_dir/.prompt-$$.tmp"
 
-    eval "export $prompt_var"
-    eval $prompt_var="'[$1] $cur_prompt'"
-else
-    eval "export $prompt_var"
-    eval $prompt_var="'[$1] $(cat "$prm_dir/.prompt-$$.tmp")'"
-fi
+        eval "export $prompt_var"
+        eval $prompt_var="'[$1] $cur_prompt'"
+    else
+        eval "export $prompt_var"
+        eval $prompt_var="'[$1] $(cat "$prm_dir/.prompt-$$.tmp")'"
+    fi
 }
 
 function set_prompt_finish() {
-eval "export $prompt_var"
-eval $prompt_var="'$(cat "$prm_dir/.prompt-$$.tmp")'"
+    # Revert prompt to what it was before prm was activated
+    eval "export $prompt_var"
+    eval $prompt_var="'$(cat "$prm_dir/.prompt-$$.tmp")'"
 }
 
 case "$1" in
+    # Test args
     active)
         # List active project "instances"
         cd "$prm_dir" >/dev/null 2>&1 || return_error 1 "Directory $prm_dir does not exist."
@@ -270,6 +274,7 @@ case "$1" in
         echo "$COPY"
         ;;
     *)
+        # Anything else
         if [ -z "$1" ]; then
             # Bare command
             prm_help
