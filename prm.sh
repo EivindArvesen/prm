@@ -93,6 +93,16 @@ function set_prompt_finish() {
     eval $prompt_var="'$(cat "$prm_dir/.prompt-$$.tmp")'"
 }
 
+function check_project_name() {
+    # Verify that project name is not blacklisted (reserved)
+    #prompt, path, active, common
+    case "$1" in
+        .*|*.tmp)
+            echo "$1: Illegal name"
+            return 1
+    esac
+}
+
 case "$1" in
     # Test args
     active)
@@ -114,6 +124,7 @@ case "$1" in
                 if [ -d "$prm_dir/$argument" ]; then
                     return_error 1 "Project $argument already exists"
                 else
+                    check_project_name "$2" || return
                     check_editor || return
                     mkdir -p "$prm_dir/$argument"
                     printf "#!/usr/bin/env bash\n\n# This script will run when STARTING the project \"%s\"\n# Here you might want to cd into your project directory, activate virtualenvs, etc.\n\n# The currently active project is available via \$PRM_ACTIVE_PROJECT\n# Command line arguments can be used, \$3 would be the first argument after your project name.\n\n" "$argument" > "$prm_dir/$argument/start.sh"
@@ -136,6 +147,7 @@ case "$1" in
                     if [ -d "$prm_dir/$3" ]; then
                         return_error 1 "Project $3 already exists"
                     else
+                        check_project_name "$3" || return
                         check_editor || return
                         cp -r "$prm_dir/$2" "$prm_dir/$3"
                         sed -i -e "s/\"$2\"/\"$3\"/g" $prm_dir/$3/*.sh
