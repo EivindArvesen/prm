@@ -20,7 +20,7 @@ fi
 
 function return_error() {
     # Print error message and return error code
-    if [ -z "$2" ]; then
+    if [ "$2" ]; then
         echo "$2"
     fi
     return "$1"
