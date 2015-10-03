@@ -180,7 +180,7 @@ case "$1" in
         ;;
     list)
         # List projects
-        if [ ! "$(find "$prm_dir" -type d | wc -l)" -gt 1 ]; then
+        if [ ! "$(find "$prm_dir" -type d | wc -l)" -gt 2 ]; then
             return_error 1 "No projects exist"
         else
             cd "$prm_dir/" >/dev/null 2>&1 || return_error 1 "Directory $prm_dir does not exist."
