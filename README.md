@@ -6,9 +6,8 @@ A minimal project manager for the terminal.
 This script **must** be sourced, *not* run in a subshell.
 See [usage](#usage) for more information.
 
-At present, prm is mostly developed and tested with `bash`, as this is what I personally use and have the most experience with.
-I'm very much open to contributions that fix issues with `zsh` (provided that they don't break `bash` support), and I try to test prm using it every once in a while to the best of my abilities.
-As far as I know, prm currently works with `zsh`.
+At present, prm supports `zsh`, as well as `bash`.
+For more information, see the [Wiki page on Zsh support](https://github.com/eivind88/prm/wiki/Zsh-support).
 
 Regrettably, `fish` is not supported because of syntax incompatibilities.
 See [this issue](https://github.com/eivind88/prm/issues/2) for some details.
