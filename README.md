@@ -112,7 +112,7 @@ You can set the prm data directory with the `$PRM_PATH` environment variable.
 By default all prm data is written to `~/.prm`.
 
 ## Contributing
-Feedback is strongly encouraged. If you run into a bug or would like to see a new feature, please open a new issue.
+Feedback is strongly encouraged. If you run into a bug or would like to see a new feature, please open a new issue. In the case of bugs, please mention what shell they occur under (i.e. `bash` or `zsh`).
 
 Contributions in the form of code (e.g. implementing new features, bug-fixes) are also appreciated. For information about this, see the [Wiki page on Contributing](https://github.com/eivind88/prm/wiki/Contributing).
 
