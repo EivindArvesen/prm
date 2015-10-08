@@ -1,5 +1,6 @@
 # prm
 A minimal project manager for the terminal.
+
 For the motivation behind prm, please see the [Wiki page on Problem Statements and Design Goals](https://github.com/eivind88/prm/wiki/Problem-Statements-and-Design-Goals).
 
 ![Demo](https://github.com/eivind88/prm/blob/demo/prm.gif)
