@@ -15,8 +15,8 @@ function return_error() {
 }
 
 # Test if prm is run in subshell or sourced
-if [[ $(basename ${0//-/}) == "prm.sh" ]]; then
-    return_error 1 "$(printf "$SOURCE")"
+if [ "$(basename "${0//-/}")" == "prm.sh" ]; then
+    return_error 1 "$(printf "%s" "$SOURCE")"
     exit
 fi
 
