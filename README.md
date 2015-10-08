@@ -1,5 +1,6 @@
 # prm
 A minimal project manager for the terminal.
+For the motivation behind prm, please see the [Wiki page on Problem Statements and Design Goals](https://github.com/eivind88/prm/wiki/Problem-Statements-and-Design-Goals).
 
 ![Demo](https://github.com/eivind88/prm/blob/demo/prm.gif)
 
@@ -9,7 +10,7 @@ See [usage](#usage) for more information.
 At present, prm supports `zsh`, as well as `bash`.
 For more information, see the [Wiki page on Zsh support](https://github.com/eivind88/prm/wiki/Zsh-support).
 
-Regrettably, `fish` is not supported because of syntax incompatibilities.
+Regrettably, `fish` is not supported, because of syntax incompatibilities.
 See [this issue](https://github.com/eivind88/prm/issues/2) for some details.
 However, Fred Deschenes has made a [port](https://github.com/FredDeschenes/prm-fish) for `fish` that you could check out.
 
@@ -74,11 +75,6 @@ prm_load conda-list-outdated
 Additionally, if you need the name of the currently active project, this is available via the `$PRM_ACTIVE_PROJECT` environment variable.
 
 Command line arguments are available in scripts, with `$3` being the first argument after your project name.
-
-## Why?
-I found myself missing project management features (like those seen in text editors and IDEs) on the terminal.
-
-Instead of remembering what projects I am working on these days or switching between loads of terminal windows or tabs, I now use prm.
 
 ## Usage
 In order to work properly, prm **must** be sourced, *not* run in a subshell; i.e. `. ./prm`.
