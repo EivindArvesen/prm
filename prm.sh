@@ -4,6 +4,21 @@
 
 COPY="Written by Eivind Arvesen, 2015."
 VERSION=0.3.0
+SOURCE="prm MUST be sourced - not run in a subshell.\ni.e. '. ./prm'\n"
+
+function return_error() {
+    # Print error message and return error code
+    if [ "$2" ]; then
+        echo "$2"
+    fi
+    return "$1"
+}
+
+# Test if prm is run in subshell or sourced
+if [[ $(basename ${0//-/}) == "prm.sh" ]]; then
+    return_error 1 "$(printf "$SOURCE")"
+    exit
+fi
 
 prm_dir="${PRM_DIR:-$HOME/.prm}"
 
@@ -17,14 +32,6 @@ if [[ $(basename "$SHELL") == zsh ]]; then
 else
     prompt_var=PS1
 fi
-
-function return_error() {
-    # Print error message and return error code
-    if [ "$2" ]; then
-        echo "$2"
-    fi
-    return "$1"
-}
 
 function prm_load() {
     # Loader-function to enable reusable components in projects
@@ -53,8 +60,7 @@ function prm_help() {
     echo "  -v --version             Display version info."
     echo ""
     echo "Please report bugs at https://github.com/eivind88/prm"
-    echo "Remember that prm MUST be sourced - not run in a subshell."
-    echo "I.e. '. ./prm'"
+    printf "Remember that $SOURCE"
 }
 
 function prm_usage() {
