@@ -18,8 +18,7 @@ cd $MY_PATH
 
 PREFIX='test_'
 # SHELLS='/bin/sh /bin/bash /bin/dash /bin/ksh /bin/pdksh /bin/zsh'
-zee-shell=`which zsh`
-SHELLS='/bin/bash ${zee-shell}'
+SHELLS="/bin/bash $(which zsh)"
 TESTS=''
 for test in ${PREFIX}[a-z]*.sh; do
   TESTS="${TESTS} ${test}"
