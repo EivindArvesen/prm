@@ -40,13 +40,15 @@ testReturnError() {
 }
 
 # for zsh compatibility
-#setopt shwordsplit
+if [[ $(basename "$SHELL") == zsh ]]; then
+    setopt shwordsplit
+fi
 
-if [ "$CI" == true -a "$TRAVIS" == true ];then
-. shunit2-2.1.6/src/shunit2
+if [ "$CI" = true -a "$TRAVIS" = true ];then
+    . shunit2-2.1.6/src/shunit2
 else
     #printf "Not on Travis CI\n\n"
-    if [ ! "$(basename "${0//-/}")" == "shunit2" ]; then
+    if [ ! "$(basename "${0//-/}")" = "shunit2" ]; then
         #echo "Run test locally via 'shunit2 test_prm.sh'"
         shunit2 "$0"
     fi

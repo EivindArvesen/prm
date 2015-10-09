@@ -19,4 +19,4 @@ before_script:
 
 script:
     - bash test_prm.sh
-    - zsh -o shwordsplit -- test_prm.sh
+    - zsh test_prm.sh
