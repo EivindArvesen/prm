@@ -1,10 +1,3 @@
-#!/usr/bin/env bash
-
-# Copyright (c) 2015 Eivind Arvesen. All Rights Reserved.
-
-# for zsh compatibility
-SHUNIT_PARENT=$0
-
 # Make prm as normally run available
 prm() {
     source ./prm.sh "$@"
@@ -15,15 +8,6 @@ oneTimeSetUp() {
     prm > /dev/null 2>&1
     # everything in prm is now available in tests
 }
-
-# AFTER ALL TESTS:
-# oneTimeTearDown()
-
-# BEFORE EACH TEST:
-# setUp()
-
-# AFTER EACH TEST:
-# tearDown()
 
 testGlobalVariables() {
     assertNotNull "${COPY}"
