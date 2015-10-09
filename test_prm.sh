@@ -17,7 +17,7 @@ oneTimeSetUp() {
 }
 
 # AFTER ALL TESTS:
-#oneTimeTearDown()
+# oneTimeTearDown()
 
 # BEFORE EACH TEST:
 # setUp()
@@ -40,6 +40,10 @@ testReturnError() {
         1 "$?"
     assertEquals "return_error does not return correct message" \
         'test' "`return_error 1 'test'`"
+}
+
+testDryRun() {
+    assertNotNull prm
 }
 
 if [ "$CI" = true -a "$TRAVIS" = true ];then

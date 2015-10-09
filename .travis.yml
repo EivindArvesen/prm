@@ -19,5 +19,4 @@ before_script:
     - curl -L "https://shunit2.googlecode.com/files/shunit2-2.1.6.tgz" | tar zx
 
 script:
-    - bash test_prm.sh
-    - zsh -o shwordsplit -- test_prm.sh
+    - bash shunit2_test.sh
