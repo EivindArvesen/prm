@@ -39,10 +39,14 @@ fi
 
 function prm_load() {
     # Loader-function to enable reusable components in projects
-    if [ -f "$prm_dir/.common/$1.sh" ]; then
-        . "$prm_dir/.common/$1.sh"
+    if [ "$1" ]; then
+        if [ -f "$prm_dir/.common/$1.sh" ]; then
+            . "$prm_dir/.common/$1.sh"
+        else
+            return_error 1 "Could not load user script $1"
+        fi
     else
-        return_error 1 "Could not load user script $1"
+        return_error 1 "No script to load named"
     fi
 }
 
@@ -82,7 +86,7 @@ function check_editor() {
 }
 
 function set_prompt_start() {
-    # Change prompt to include named of active prm project
+    # Change prompt to include name of active prm project
     if [ ! -e "$prm_dir/.prompt-$$.tmp" ]; then
         cur_prompt=""
         eval "cur_prompt=\$$prompt_var"
