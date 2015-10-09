@@ -1,11 +1,6 @@
 #!/usr/bin/env bats
-#
-# https://github.com/sstephenson/bats
 
-prm() {
-    # Make prm available as normally run
-    source ./prm.sh "$@"
-}
+load common
 
 setup() {
     # Make prm internals available in tests
@@ -16,22 +11,23 @@ teardown() {
     unset prm
 }
 
-@test "bare run" {
-    run prm #>&2
-    [ "$status" -eq 0 ]
-    [ "$output" != "" ]
-}
-
 @test "global variables" {
     [ "${COPY}" ]
     [ "${VERSION}" ]
     [ "${SOURCE}" ]
 }
 
-@test "return_error function" {
-    run return_error 1
+@test "return_error function without code" {
+    run return_error
     [ "$status" -eq 1 ]
+}
 
+@test "return_error function with code without message" {
+    run return_error 2
+    [ "$status" -eq 2 ]
+}
+
+@test "return_error function with code and message" {
     run return_error 1 'test'
     [ "$status" -eq 1 ]
     [ "$output" = "test" ]

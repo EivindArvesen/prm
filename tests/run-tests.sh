@@ -10,6 +10,7 @@ declare -a shells=(
     "bash"
     "zsh"
 )
+tests=$(ls -1 "$test_folder/"*.bats | wc -l)
 
 # for shell_folder in "$test_folder/"*; do
 #     [ -d "$shell_folder" ] || continue

@@ -4,14 +4,18 @@
 
 COPY="Written by Eivind Arvesen, 2015."
 VERSION=0.3.0
-SOURCE="prm MUST be sourced - not run in a subshell.\ni.e. '. ./prm'\n"
+SOURCE=$(printf "prm MUST be sourced - not run in a subshell.\ni.e. '. ./prm'\n")
 
 function return_error() {
     # Print error message and return error code
     if [ "$2" ]; then
         echo "$2"
     fi
-    return "$1"
+    if [ "$1" ]; then
+        return "$1"
+    else
+        return 1
+    fi
 }
 
 # Test if prm is run in subshell or sourced
