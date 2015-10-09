@@ -4,6 +4,9 @@
 
 # for zsh compatibility
 SHUNIT_PARENT=$0
+if [[ $(basename "$SHELL") = zsh ]]; then
+    setopt shwordsplit
+fi
 
 # Make prm as normally run available
 prm() {

@@ -13,7 +13,6 @@ before_install:
 - make install
 - cd -
 - export PATH="$LOCAL/bin:$PATH"
-- which zsh
 - zsh --version
 
 before_script:
