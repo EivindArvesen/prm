@@ -47,7 +47,8 @@ testDryRun() {
 }
 
 if [ "$CI" = true -a "$TRAVIS" = true ];then
-    . shunit2-2.1.6/src/shunit2
+    #. shunit2-2.1.6/src/shunit2
+    . shunit2
 else
     #printf "Not on Travis CI\n\n"
     if [ ! "$(basename "${0//-/}")" = "shunit2" ]; then
