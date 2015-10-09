@@ -2,7 +2,7 @@
 
 [![travis][travis-image]][travis-url]
 [![license][license-image]][license-url]
-[travis-image]: https://travis-ci.org/eivind88/prm.svg?branch=master
+[travis-image]: https://api.travis-ci.org/eivind88/prm.svg
 [travis-url]: https://travis-ci.org/eivind88/prm
 [license-image]: http://img.shields.io/badge/license-BSD3-brightgreen.svg
 [license-url]: https://github.com/eivind88/prm/blob/master/LICENSE.txt
