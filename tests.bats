@@ -15,7 +15,7 @@ setup() {
 }
 
 @test "runnable bash" {
-  run bash
+  run bash -c "exit"
   [ $status -eq 0 ]
   [ "$(strings <<< $output)" = "" ]
 }
