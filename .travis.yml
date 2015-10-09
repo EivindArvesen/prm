@@ -27,7 +27,8 @@ before_install:
     - sudo apt-get install -qq zsh
 
 script:
-    - bats tests/
+    #- bats tests/
+    - bash ./tests/run-tests.sh
     # - bash test_prm.sh
     # - zsh -o shwordsplit -- test_prm.sh
     # - bash shunit2_test.sh
