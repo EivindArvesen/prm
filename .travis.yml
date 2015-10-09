@@ -1,5 +1,19 @@
 language: bash
 
+addons:
+  apt:
+    packages:
+    - build-essential
+before_install:
+- export LOCAL="$(mktemp --directory --tmpdir=${TMPDIR:/tmp} local.bin.XXXXXX)"
+- curl -L http://downloads.sourceforge.net/zsh/zsh-5.0.7.tar.gz | tar zx
+- cd zsh-5.0.7
+- ./configure --prefix=$LOCAL
+- make
+- make install
+- cd -
+- export PATH="$LOCAL/bin:$PATH"
+
 before_script:
     - curl -L "https://shunit2.googlecode.com/files/shunit2-2.1.6.tgz" | tar zx
 
