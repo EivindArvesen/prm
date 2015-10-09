@@ -15,7 +15,7 @@ function return_error() {
 }
 
 # Test if prm is run in subshell or sourced
-if [ "$(basename "${0//-/}")" == "prm.sh" ]; then
+if [ "$(basename "${0//-/}")" = "prm.sh" ]; then
     return_error 1 "$(printf "%s" "$SOURCE")"
     exit
 fi
@@ -27,7 +27,7 @@ if [ ! -d "$prm_dir/.common" ]; then
     mkdir -p "$prm_dir/.common"
 fi
 
-if [[ $(basename "$SHELL") == zsh ]]; then
+if [[ $(basename "$SHELL") = zsh ]]; then
     prompt_var=RPROMPT
 else
     prompt_var=PS1
@@ -60,7 +60,7 @@ function prm_help() {
     echo "  -v --version             Display version info."
     echo ""
     echo "Please report bugs at https://github.com/eivind88/prm"
-    printf "Remember that $SOURCE"
+    printf "Remember that %s" "$SOURCE"
 }
 
 function prm_usage() {

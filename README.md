@@ -1,4 +1,12 @@
 # prm
+
+[![travis][travis-image]][travis-url]
+[![license][license-image]][license-url]
+[travis-image]: https://api.travis-ci.org/eivind88/prm.svg
+[travis-url]: https://travis-ci.org/eivind88/prm
+[license-image]: http://img.shields.io/badge/license-BSD3-brightgreen.svg
+[license-url]: https://github.com/eivind88/prm/blob/master/LICENSE.txt
+
 A minimal project manager for the terminal.
 
 For the motivation behind prm, please see the [Wiki page on Problem Statements and Design Goals](https://github.com/eivind88/prm/wiki/Problem-Statements-and-Design-Goals).
