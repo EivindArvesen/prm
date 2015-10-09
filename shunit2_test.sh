@@ -94,7 +94,7 @@ for shell in ${shells}; do
   echo
 
   # check for existance of shell
-  if [ ! -x ${shell} ]; then
+  if [ ! -x `echo ${shell} | head -n1 | cut -d " " -f1` ]; then
     cat <<EOF
 
 #------------------------------------------------------------------------------
@@ -112,12 +112,17 @@ EOF
 #
 EOF
 
+  if [[ "${shell}" == *"zsh"* ]]; then
+    shell="${shell} -o shwordsplit -- "
+  fi
+
   SHUNIT_SHELL=${shell}  # pass shell onto tests
-  shell_name=`basename ${shell}`
-  shell_version=`"${shell}" --version`
+  shell_name=`basename "${shell}" | head -n1 | cut -d " " -f1`
+  shell_version=`$(echo "${shell}" --version | head -n1 | cut -d " " -f1) --version`
 
   echo "shell name: ${shell_name}"
   echo "shell version: ${shell_version}"
+  echo "shell command: ${shell}"
 
   # execute the tests
   for suite in ${tests}; do
