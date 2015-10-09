@@ -13,6 +13,7 @@ before_install:
 - make install
 - cd -
 - export PATH="$LOCAL/bin:$PATH"
+- zsh --version
 
 before_script:
     - curl -L "https://shunit2.googlecode.com/files/shunit2-2.1.6.tgz" | tar zx

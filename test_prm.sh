@@ -7,7 +7,7 @@ SHUNIT_PARENT=$0
 
 # Make prm as normally run available
 prm() {
-    source prm.sh "$@"
+    source ./prm.sh "$@"
 }
 
 # BEFORE ALL TESTS:
