@@ -8,7 +8,11 @@ before_install:
 - sudo add-apt-repository ppa:duggan/bats --yes
 - sudo apt-get update -qq
 - sudo apt-get install -qq bats
+- sudo apt-get install shunit2
 - sudo apt-get install -qq zsh
 
 script:
     - bats tests.bats
+    - bash test_prm.sh
+    - zsh -o shwordsplit -- test_prm.sh
+    - bash shunit2_test.sh
