@@ -4,10 +4,17 @@
 
 test_folder="./tests"
 
-for shell_folder in "$test_folder/"*; do
-    [ -d "$shell_folder" ] || continue
-    shells="$shells $(basename "$shell_folder")"
-done
+# Remember: $CI and $TRAVIS will be set to true if running on Travis CI.
+
+declare -a shells=(
+    "bash"
+    "zsh"
+)
+
+# for shell_folder in "$test_folder/"*; do
+#     [ -d "$shell_folder" ] || continue
+#     shells="$shells $(basename "$shell_folder")"
+# done
 
 cat <<EOF
 #------------------------------------------------------------------------------
@@ -15,7 +22,7 @@ cat <<EOF
 #
 
 # test run info
-shells: ${shells}
+shells: ${shells[@]}
 tests: ${tests}
 EOF
 for key in ${env}; do
@@ -32,9 +39,7 @@ echo
 echo "$ uname -mprsv"
 uname -mprsv
 
-for shell_folder in "$test_folder/"*; do
-    [ -d "$shell_folder" ] || continue
-    shell=$(basename "$shell_folder")
+for shell in "${shells[@]}"; do
     cat <<EOF
 
 #------------------------------------------------------------------------------
@@ -43,7 +48,7 @@ for shell_folder in "$test_folder/"*; do
 #
 EOF
 echo
-    for test_file in "$shell_folder/"*; do
+    for test_file in "$test_folder/"*.bats; do
         echo "Executing the $(basename $test_file) test file ---"
         bats $test_file
         echo
