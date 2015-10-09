@@ -39,11 +39,6 @@ testReturnError() {
         'test' "`return_error 1 'test'`"
 }
 
-# for zsh compatibility
-if [[ $(basename "$SHELL") == zsh ]]; then
-    setopt shwordsplit
-fi
-
 if [ "$CI" = true -a "$TRAVIS" = true ];then
     . shunit2-2.1.6/src/shunit2
 else
