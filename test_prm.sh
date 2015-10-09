@@ -2,6 +2,9 @@
 
 # Copyright (c) 2015 Eivind Arvesen. All Rights Reserved.
 
+# for zsh compatibility
+SHUNIT_PARENT=$0
+
 # Make prm as normally run available
 prm() {
     source ./prm.sh "$@"
@@ -38,11 +41,6 @@ testReturnError() {
     assertEquals "return_error does not return correct message" \
         'test' "`return_error 1 'test'`"
 }
-
-# for zsh compatibility
-if [[ $(basename "$SHELL") == zsh ]]; then
-    SHUNIT_PARENT=$0
-fi
 
 if [ "$CI" = true -a "$TRAVIS" = true ];then
     . shunit2-2.1.6/src/shunit2
