@@ -18,7 +18,7 @@ cd $MY_PATH
 
 PREFIX='test_'
 # SHELLS='/bin/sh /bin/bash /bin/dash /bin/ksh /bin/pdksh /bin/zsh'
-SHELLS='bash zsh'
+SHELLS='/bin/bash ./zsh-5.0.7/zsh'
 TESTS=''
 for test in ${PREFIX}[a-z]*.sh; do
   TESTS="${TESTS} ${test}"
