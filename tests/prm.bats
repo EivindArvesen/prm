@@ -9,9 +9,25 @@ load common
     [ "$output" != "" ]
 }
 
-@test "active" {
+@test "active option lists nothing when nothing is active" {
     # prm active
-    skip
+    run prm active
+    [ "$status" -eq 0 ]
+    [ "$output" = "" ]
+}
+
+@test "active option lists active projects" {
+    # prm active
+    project_name="non-existing-dummy-project"
+    touch "$prm_dir/.active-$$.tmp"
+    echo "$project_name" > "$prm_dir/.active-$$.tmp"
+    [ -e "$prm_dir/.active-$$.tmp" ]
+    cat "$prm_dir/.active-$$.tmp"
+    run mkdir "$prm_dir/$project_name"
+    run prm active
+    [ "$status" -eq 0 ]
+    [ "$output" = "$$    $project_name" ]
+    rm -rf "$prm_dir/.active-$$.tmp" "$prm_dir/$project_name"
 }
 
 @test "add" {

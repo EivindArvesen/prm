@@ -5,6 +5,8 @@ prm() {
     source ./prm.sh "$@"
 }
 
+prm_dir="${PRM_DIR:-$HOME/.prm}"
+
 # https://github.com/sstephenson/bats
 #
 # Complicated run's should be performed like so:
