@@ -2,14 +2,8 @@
 
 load common
 
-setup() {
-    # Make prm internals available in tests
-    prm > /dev/null 2>&1
-}
-
-teardown() {
-    unset prm
-}
+# Make prm internals available in tests
+prm > /dev/null 2>&1
 
 @test "global variables" {
     [ "${COPY}" ]
@@ -53,7 +47,7 @@ teardown() {
 }
 
 @test "prm_load helper function with arg" {
-    run bash -c "echo 'echo TesT' > $prm_dir/.common/TEST.sh "
+    run bash -c "echo 'echo TesT' > $prm_dir/.common/TEST.sh"
     run prm_load TEST
     [ "$status" -eq 0 ]
     [ "$output" = "TesT" ]
@@ -80,6 +74,7 @@ teardown() {
     run check_editor
     [ "$status" -eq 1 ]
     [ "$output" != "" ]
+    [ "${lines[0]}" = "\$EDITOR is not set." ]
     if [ ! -z "$OLD_EDITOR" ]; then
         EDITOR=$OLD_EDITOR
         unset -v "OLD_EDITOR"
@@ -95,7 +90,55 @@ teardown() {
     [ "$status" -eq 0 ]
     [ "$output" = "" ]
     if [ "$WAS_NOT_SET" ]; then
-        unset -v "OLD_EDITOR"
         unset -v "EDITOR"
+        unset -v "WAS_NOT_SET"
     fi
+}
+
+@test "set_prompt_start changes prompt" {
+    run bash -c "echo \"\$$prompt_var\" > $prm_dir/.prompt-$$.tmp"
+    run set_prompt_start "test"
+    [ "$status" -eq 0 ]
+    [ "$output" = "" ]
+    eval $prompt_var="'$(cat "$prm_dir/.prompt-$$.tmp")'"
+    run rm "$prm_dir/.prompt-$$.tmp"
+}
+
+@test "set_prompt_finish reverts to original prompt" {
+    run bash -c "echo \"\$$prompt_var\" > $prm_dir/.prompt-$$.tmp"
+    run set_prompt_finish
+    [ "$status" -eq 0 ]
+    [ "$output" = "" ]
+    run rm "$prm_dir/.prompt-$$.tmp"
+}
+
+@test "check_project_name fails if arg is blacklisted" {
+    run check_project_name ".reserved"
+    [ "$status" -eq 1 ]
+    [ "$output" != "" ]
+    run check_project_name "reserved.tmp"
+    [ "$status" -eq 1 ]
+    [ "$output" != "" ]
+}
+
+@test "check_project_name succeeds if arg is not blacklisted" {
+    run check_project_name "test"
+    [ "$status" -eq 0 ]
+    [ "$output" = "" ]
+}
+
+@test "cleanup does not clean up live project instances" {
+    run bash -c "touch $prm_dir/.active-$$.tmp $prm_dir/.path-$$.tmp $prm_dir/.prompt-$$.tmp"
+    run cleanup
+    [ "$status" -eq 0 ]
+    [ "$output" = "" ]
+    run bash -c "rm -f $prm_dir/.active-$$.tmp $prm_dir/.path-$$.tmp $prm_dir/.prompt-$$.tmp"
+}
+
+@test "cleanup cleans up dead project instances" {
+    run bash -c "touch $prm_dir/.active-99999.tmp $prm_dir/.path-99999.tmp $prm_dir/.prompt-99999.tmp"
+    run cleanup
+    [ "$status" -eq 0 ]
+    [ "$output" = "" ]
+    run bash -c "rm -f $prm_dir/.active-99999.tmp $prm_dir/.path-99999.tmp $prm_dir/.prompt-99999.tmp"
 }

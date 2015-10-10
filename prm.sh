@@ -324,6 +324,7 @@ case "$1" in
             # Error-Screen
             return_error 1 "prm: illegal option -- $1 (see \"prm --help\" for help)"
             prm_usage
+            return 1
         fi
         ;;
 esac

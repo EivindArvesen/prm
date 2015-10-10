@@ -2,7 +2,8 @@
 
 # Copyright (c) 2015 Eivind Arvesen. All Rights Reserved.
 
-test_folder="./tests"
+#test_folder="./tests"
+test_folder=$( cd $(dirname $0) ; pwd -P )
 
 # Remember: $CI and $TRAVIS will be set to true if running on Travis CI.
 
