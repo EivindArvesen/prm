@@ -3,8 +3,8 @@
 # Copyright (c) 2015 Eivind Arvesen. All Rights Reserved.
 
 COPY="Written by Eivind Arvesen, 2015."
-VERSION=0.3.0
-SOURCE=$(printf "prm MUST be sourced - not run in a subshell.\ni.e. '. ./prm'\n")
+VERSION=0.4.0
+SOURCE=$(printf "prm MUST be sourced - not run in a subshell.\ni.e. '. ./prm'\n" && echo " ")
 
 function return_error() {
     # Print error message and return error code
@@ -115,6 +115,22 @@ function check_project_name() {
             echo "$1: Illegal name"
             return 1
     esac
+}
+
+function cleanup() {
+    # Clean dead project "instances"
+    cd "$prm_dir" >/dev/null 2>&1 || return_error 1 "Directory $prm_dir does not exist."
+    if [ -n "$(find . -maxdepth 1 -name '.active*' -print -quit)" ]; then
+        for instance in .active*; do
+            pid=${instance%.*}
+            pid=${pid##*-}
+
+            if (! ps -p "$pid" > /dev/null); then
+                rm -f "$prm_dir/.active-$pid.tmp" "$prm_dir/.path-$pid.tmp" "$prm_dir/.prompt-$pid.tmp"
+            fi
+        done
+    fi
+    cd - >/dev/null 2>&1 || return_error 1 "Previous directory not available."
 }
 
 case "$1" in
@@ -312,16 +328,4 @@ case "$1" in
         ;;
 esac
 
-# Clean dead project "instances"
-cd "$prm_dir" >/dev/null 2>&1 || return_error 1 "Directory $prm_dir does not exist."
-if [ -n "$(find . -maxdepth 1 -name '.active*' -print -quit)" ]; then
-    for instance in .active*; do
-        pid=${instance%.*}
-        pid=${pid##*-}
-
-        if (! ps -p "$pid" > /dev/null); then
-            rm -f "$prm_dir/.active-$pid.tmp" "$prm_dir/.path-$pid.tmp" "$prm_dir/.prompt-$pid.tmp"
-        fi
-    done
-fi
-cd - >/dev/null 2>&1 || return_error 1 "Previous directory not available."
+cleanup
