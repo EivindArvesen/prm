@@ -1,4 +1,4 @@
-# sudo: false
+sudo: false
 language: bash
 
 addons:
@@ -7,6 +7,12 @@ addons:
         #     -
         packages:
             - build-essential
+            - zsh
+
+cache:
+    directories:
+        - $HOME/bats
+
 before_install:
     # # THIS MAY COME IN HANDY IF WE MIGRATE FROM LEGACY TO CONTAINER-BASED INFRASTRUCTURE (TRAVIS CI)
     #
@@ -21,10 +27,16 @@ before_install:
     # - which zsh
     # - zsh --version
     #
-    - sudo add-apt-repository ppa:duggan/bats --yes
-    - sudo apt-get update -qq
-    - sudo apt-get install -qq bats
-    - sudo apt-get install -qq zsh
+    # - sudo add-apt-repository ppa:duggan/bats --yes
+    # - sudo apt-get update -qq
+    # - sudo apt-get install -qq bats
+    # - sudo apt-get install -qq zsh
+
+before_script:
+    - git clone https://github.com/sstephenson/bats.git
+    #- cd bats
+    #- ./install.sh /usr/local
+    - export PATH=$PATH:$PWD/bats/bin/
 
 script:
     #- bats tests/
