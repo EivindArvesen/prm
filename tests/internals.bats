@@ -84,7 +84,7 @@ prm > /dev/null 2>&1
 @test "check_editor succeeds if editor var is set" {
     if [ -z "$EDITOR" ]; then
         WAS_NOT_SET=true
-        EDITOR="vim" # cue religious war
+        EDITOR="vi" # cue religious war
     fi
     run check_editor
     [ "$status" -eq 0 ]
