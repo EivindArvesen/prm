@@ -56,4 +56,4 @@ echo
         echo
     done
 done
-rm -rf ./tmp-prm-home
+rm -rf tmp-prm-home
