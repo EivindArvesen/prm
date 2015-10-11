@@ -5,7 +5,9 @@ prm() {
     source ./prm.sh "$@"
 }
 
+PRM_DIR="./tmp-prm-home"
 prm_dir="${PRM_DIR:-$HOME/.prm}"
+prm_bats_tests=true
 
 # https://github.com/sstephenson/bats
 #

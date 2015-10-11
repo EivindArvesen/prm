@@ -25,7 +25,7 @@ cat <<EOF
 
 # test run info
 shells: ${shells[@]}
-tests: ${tests}
+tests-files: ${tests}
 EOF
 for key in ${env}; do
     eval "echo \"${key}=\$${key}\""
@@ -56,3 +56,4 @@ echo
         echo
     done
 done
+rm -rf ./tmp-prm-home
