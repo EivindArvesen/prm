@@ -14,8 +14,6 @@ cache:
         - $HOME/bats
 
 before_install:
-    # # THIS MAY COME IN HANDY IF WE MIGRATE FROM LEGACY TO CONTAINER-BASED INFRASTRUCTURE (TRAVIS CI)
-    #
     # - export LOCAL="$(mktemp --directory --tmpdir=${TMPDIR:/tmp} local.bin.XXXXXX)"
     # - curl -L http://downloads.sourceforge.net/zsh/zsh-5.0.7.tar.gz | tar zx
     # - cd zsh-5.0.7
@@ -26,11 +24,6 @@ before_install:
     # - export PATH="$LOCAL/bin:$PATH"
     # - which zsh
     # - zsh --version
-    #
-    # - sudo add-apt-repository ppa:duggan/bats --yes
-    # - sudo apt-get update -qq
-    # - sudo apt-get install -qq bats
-    # - sudo apt-get install -qq zsh
 
 before_script:
     - git clone https://github.com/sstephenson/bats.git
@@ -41,6 +34,3 @@ before_script:
 script:
     #- bats tests/
     - bash ./tests/run-tests.sh
-    # - bash test_prm.sh
-    # - zsh -o shwordsplit -- test_prm.sh
-    # - bash shunit2_test.sh

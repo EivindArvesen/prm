@@ -46,7 +46,7 @@ for shell in "${shells[@]}"; do
 
 #------------------------------------------------------------------------------
 # Running the test suite with ${shell}
-# $("${shell}" --version)
+# $("${shell}" --version | head -n1)
 #
 EOF
 echo
