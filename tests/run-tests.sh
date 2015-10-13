@@ -54,6 +54,6 @@ echo
         echo "Executing the $(basename $test_file) test file ---"
         bats $test_file
         echo
+        rm -rf ./tmp-prm-home
     done
 done
-rm -rf ./tmp-prm-home
