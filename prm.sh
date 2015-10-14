@@ -127,7 +127,7 @@ function edit_scripts() {
     case "$uname" in
         CYGWIN*|MINGW32*|MSYS*)
             #Cygwin
-            $EDITOR `cygpath.exe -d "/home/myusername/.prm/$1/start.sh"` && $EDITOR `cygpath.exe -d "/home/myusername/.prm/$1/stop.sh"`
+            $EDITOR `cygpath.exe -d "$prm_dir/$1/start.sh"` && $EDITOR `cygpath.exe -d "$prm_dir/$1/stop.sh"`
             ;;
         *)
             #OS X/Linux/BSD/etc.
