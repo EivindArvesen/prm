@@ -14,6 +14,7 @@ For the motivation behind prm, please see the [Wiki page on Problem Statements a
 ![Demo](https://github.com/eivind88/prm/blob/demo/prm.gif)
 
 This script **must** be sourced, *not* run in a subshell.
+The technical reason for this is succinctly explained in [this](https://en.wikipedia.org/wiki/Source_(command)) Wikipedia article.
 See [usage](#usage) for more information.
 
 At present, prm supports `zsh`, as well as `bash`.
