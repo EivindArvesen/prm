@@ -54,7 +54,7 @@ load common
     rm -rf "$prm_dir/$project_name"
 }
 
-@test "add option with arg adds project under Cygwin" {
+@test "add option with arg adds project under Cygwin (Mock)" {
     # prm add <project name>
     prm_bats_test_cygwin=true
     project_name="test-prj"
@@ -108,7 +108,7 @@ load common
     rm -rf "$prm_dir/$project_name" "$prm_dir/new-prj"
 }
 
-@test "edit option succeeds if project exists under Cygwin" {
+@test "edit option succeeds if project exists under Cygwin (Mock)" {
     # prm copy <old> <new>
     prm_bats_test_cygwin=true
     project_name=exists
@@ -151,7 +151,7 @@ load common
     rm -rf "$prm_dir/$project_name"
 }
 
-@test "edit option succeeds if project exists under Cygwin" {
+@test "edit option succeeds if project exists under Cygwin (Mock)" {
     # prm edit <project name>
     prm_bats_test_cygwin=true
     project_name=exists
