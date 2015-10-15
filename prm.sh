@@ -117,6 +117,25 @@ function check_project_name() {
     esac
 }
 
+function edit_scripts() {
+    # Open project start- and stop- scripts in $EDITOR
+    if [ $CI ] && [ $prm_bats_test_cygwin ]; then
+        uname="CYGWIN_NT-5.2-WOW64"
+    else
+        uname=$(uname -s)
+    fi
+    case "$uname" in
+        CYGWIN*|MINGW32*|MSYS*)
+            #Cygwin
+            $EDITOR `cygpath.exe -d "$prm_dir/$1/start.sh"` && $EDITOR `cygpath.exe -d "$prm_dir/$1/stop.sh"`
+            ;;
+        *)
+            #OS X/Linux/BSD/etc.
+            $EDITOR "$prm_dir/$1/start.sh" && $EDITOR "$prm_dir/$1/stop.sh"
+            ;;
+    esac
+}
+
 function cleanup() {
     # Clean dead project "instances"
     cd "$prm_dir" >/dev/null 2>&1 || return_error 1 "Directory $prm_dir does not exist."
@@ -160,7 +179,7 @@ case "$1" in
                     mkdir -p "$prm_dir/$argument"
                     printf "#!/usr/bin/env bash\n\n# This script will run when STARTING the project \"%s\"\n# Here you might want to cd into your project directory, activate virtualenvs, etc.\n\n# The currently active project is available via \$PRM_ACTIVE_PROJECT\n# Command line arguments can be used, \$3 would be the first argument after your project name.\n\n" "$argument" > "$prm_dir/$argument/start.sh"
                     printf "#!/usr/bin/env bash\n\n# This script will run when STOPPING the project \"%s\"\n# Here you might want to deactivate virtualenvs, clean up temporary files, etc.\n\n# The currently active project is available via \$PRM_ACTIVE_PROJECT\n# Command line arguments can be used, \$3 would be the first argument after your project name.\n\n" "$argument" > "$prm_dir/$argument/stop.sh"
-                    $EDITOR "$prm_dir/$argument/start.sh" && $EDITOR "$prm_dir/$argument/stop.sh"
+                    edit_scripts $argument
                     echo "Added project $argument"
                 fi
             done
@@ -185,7 +204,7 @@ case "$1" in
                         check_editor || return
                         cp -r "$prm_dir/$2" "$prm_dir/$3"
                         sed -i -e "s/\"$2\"/\"$3\"/g" $prm_dir/$3/*.sh
-                        $EDITOR "$prm_dir/$argument/start.sh" && $EDITOR "$prm_dir/$argument/stop.sh"
+                        edit_scripts $3
                         echo "Copied project $2 to $3"
                     fi
                 else
@@ -204,7 +223,7 @@ case "$1" in
             for argument in "${@:2}"; do
                 if [ -d "$prm_dir/$argument" ]; then
                     check_editor || return
-                    $EDITOR "$prm_dir/$argument/start.sh" && $EDITOR "$prm_dir/$argument/stop.sh"
+                    edit_scripts $argument
                     echo "Edited project $argument"
                 else
                     return_error 1 "$argument: No such project"

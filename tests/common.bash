@@ -10,9 +10,10 @@ teardown() {
     echo "OUTPUT: $output"
 }
 
-EDITOR=":" # cue religious war
+EDITOR=":"
 PRM_DIR="./tmp-prm-home"
 prm_dir="${PRM_DIR:-$HOME/.prm}"
+CI=true
 
 # https://github.com/sstephenson/bats
 #

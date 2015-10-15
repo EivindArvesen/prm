@@ -5,48 +5,48 @@ load common
 # Make prm internals available in tests
 prm > /dev/null 2>&1
 
-@test "global variables" {
+@test "global variables exist" {
     [ "${COPY}" ]
     [ "${VERSION}" ]
     [ "${SOURCE}" ]
 }
 
-@test "return_error function without code and message" {
+@test "return_error function returns 1 when not given code nor message as args" {
     run return_error
     [ "$status" -eq 1 ]
 }
 
-@test "return_error function with code without message" {
+@test "return_error function returns code given as arg when not given message" {
     run return_error 2
     [ "$status" -eq 2 ]
     [ ! "$output" ]
 }
 
-@test "return_error function with code and message" {
+@test "return_error function returns both code and message given as args" {
     run return_error 1 'test'
     [ "$status" -eq 1 ]
     [ "$output" = "test" ]
 }
 
-@test "prm_dir check" {
+@test "prm_dir exists" {
     [ "${prm_dir}" ]
 }
 
-@test "create prm_dir" {
+@test "prm_dir is created" {
     [ -d "$prm_dir/.common" ]
 }
 
-@test "set prompt_var" {
+@test "prompt_var is set" {
     [ "${prompt_var}" ]
 }
 
-@test "prm_load helper function fails without args" {
+@test "prm_load helper function fails when not given args" {
     run prm_load
     [ "$status" -eq 1 ]
     [ "$output" != "" ]
 }
 
-@test "prm_load helper function with arg" {
+@test "prm_load helper function succeeds when given arg" {
     run bash -c "echo 'echo TesT' > $prm_dir/.common/TEST.sh"
     run prm_load TEST
     [ "$status" -eq 0 ]
@@ -54,19 +54,19 @@ prm > /dev/null 2>&1
     run bash -c "rm $prm_dir/.common/TEST.sh "
 }
 
-@test "help-function outputs" {
+@test "help-function works as expected" {
     run prm_help
     [ "$status" -eq 0 ]
     [ "$output" ]
 }
 
-@test "usage-function outputs" {
+@test "usage-function works as expected" {
     run prm_usage
     [ "$status" -eq 0 ]
     [ "$output" ]
 }
 
-@test "check_editor fails if editor var is not set" {
+@test "check_editor fails if editor env var is not set" {
     if [ ! -z "$EDITOR" ]; then
         OLD_EDITOR=$EDITOR
         unset -v "EDITOR"

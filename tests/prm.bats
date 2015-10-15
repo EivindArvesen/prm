@@ -54,6 +54,19 @@ load common
     rm -rf "$prm_dir/$project_name"
 }
 
+@test "add option with arg adds project under Cygwin (Mock)" {
+    # prm add <project name>
+    prm_bats_test_cygwin=true
+    project_name="test-prj"
+    run prm add $project_name
+    [ "$status" -eq 0 ]
+    [ $(echo "${lines[0]}" | grep "cygpath.exe: command not found") ]
+    [ $(echo "${lines[1]}" | grep "cygpath.exe: command not found") ]
+    [ "${lines[2]}" = "Added project $project_name" ]
+    rm -rf "$prm_dir/$project_name"
+    unset $prm_bats_test_cygwin
+}
+
 @test "add option with several args adds several projects" {
     # prm add <project name>
     project_name1="prj1"
@@ -95,6 +108,21 @@ load common
     rm -rf "$prm_dir/$project_name" "$prm_dir/new-prj"
 }
 
+@test "edit option succeeds if project exists under Cygwin (Mock)" {
+    # prm copy <old> <new>
+    prm_bats_test_cygwin=true
+    project_name=exists
+    mkdir -p "$prm_dir/$project_name"
+    touch "$prm_dir/$project_name/start.sh" "$prm_dir/$project_name/stop.sh"
+    run prm copy $project_name new-prj hidden
+    [ "$status" -eq 0 ]
+    [ $(echo "${lines[0]}" | grep "cygpath.exe: command not found") ]
+    [ $(echo "${lines[1]}" | grep "cygpath.exe: command not found") ]
+    [ "${lines[2]}" = "Copied project $project_name to new-prj" ]
+    rm -rf "$prm_dir/$project_name" "$prm_dir/new-prj"
+    unset $prm_bats_test_cygwin
+}
+
 @test "copy option fails when no new name is given" {
     # prm add <project name>
     project_name="test-prj"
@@ -121,6 +149,21 @@ load common
     [ "$status" -eq 0 ]
     [ "$output" = "Edited project $project_name" ]
     rm -rf "$prm_dir/$project_name"
+}
+
+@test "edit option succeeds if project exists under Cygwin (Mock)" {
+    # prm edit <project name>
+    prm_bats_test_cygwin=true
+    project_name=exists
+    mkdir -p "$prm_dir/$project_name"
+    touch "$prm_dir/$project_name/start.sh" "$prm_dir/$project_name/stop.sh"
+    run prm edit $project_name
+    [ "$status" -eq 0 ]
+    [ $(echo "${lines[0]}" | grep "cygpath.exe: command not found") ]
+    [ $(echo "${lines[1]}" | grep "cygpath.exe: command not found") ]
+    [ "${lines[2]}" = "Edited project $project_name" ]
+    rm -rf "$prm_dir/$project_name"
+    unset $prm_bats_test_cygwin
 }
 
 @test "edit option succeeds if several project exist" {
