@@ -3,7 +3,7 @@
 # Copyright (c) 2015 Eivind Arvesen. All Rights Reserved.
 
 COPY="Written by Eivind Arvesen, 2015."
-VERSION=0.5.0
+VERSION=0.6.0
 SOURCE=$(printf "prm MUST be sourced - not run in a subshell.\ni.e. '. ./prm'\n" && echo " ")
 
 function return_error() {

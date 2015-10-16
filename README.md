@@ -20,6 +20,8 @@ See [usage](#usage) for more information.
 At present, prm supports `zsh`, as well as `bash`.
 For more information, see the [Wiki page on Zsh support](https://github.com/eivind88/prm/wiki/Zsh-support).
 
+Ostensibly, prm also [works](https://github.com/eivind88/prm/issues/27) under [Cygwin](https://cygwin.com).
+
 Regrettably, `fish` is not supported, because of syntax incompatibilities.
 See [this issue](https://github.com/eivind88/prm/issues/2) for some details.
 However, Fred Deschenes has made a [port](https://github.com/FredDeschenes/prm-fish) for `fish` that you could check out.
