@@ -86,7 +86,9 @@ prm_load conda-list-outdated
 
 Additionally, if you need the name of the currently active project, this is available via the `$PRM_ACTIVE_PROJECT` environment variable.
 
-Command line arguments are available in scripts, with `$3` being the first argument after your project name.
+The prm command line arguments are available in start- and stop-scripts, `$3` being the first argument after your project name.
+
+All available environment variables are described on [this](https://github.com/eivind88/prm/wiki/Environment-variables) Wiki page.
 
 ## Usage
 In order to work properly, prm **must** be sourced, *not* run in a subshell; i.e. `. ./prm`.
@@ -123,6 +125,8 @@ By default all prm data is written to `~/.prm`.
 Feedback is strongly encouraged. If you run into a bug or would like to see a new feature, please open a new issue. In the case of bugs, please mention what shell they occur under (i.e. `bash` or `zsh`).
 
 Contributions in the form of code (e.g. implementing new features, bug-fixes) are also appreciated. For information about this, see the [Wiki page on Contributing](https://github.com/eivind88/prm/wiki/Contributing).
+
+Pull requests that do not pass the CI [tests](https://github.com/eivind88/prm/wiki/Contributing/_edit#tests) will not be merged.
 
 ## License
 This software is released under the terms of the 3-clause New BSD License. See the [license](LICENSE.txt) file for details.
