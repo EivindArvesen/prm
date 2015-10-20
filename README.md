@@ -9,8 +9,6 @@
 
 A minimal project manager for the terminal.
 
-For the motivation behind prm, please see the [Wiki page on Problem Statements and Design Goals](https://github.com/eivind88/prm/wiki/Problem-Statements-and-Design-Goals).
-
 ![Demo](https://github.com/eivind88/prm/blob/demo/prm.gif)
 
 This script **must** be sourced, *not* run in a subshell.
@@ -37,6 +35,8 @@ You can have several projects active at once in different shells, as prm associa
 Currently active projects can be listed (as described in [usage](#usage)).
 
 Dead project instances (i.e. project instances that are still active on shell exit) will be automatically deactivated the next time you run prm – without running their stop-scripts.
+
+For the motivation behind prm, please see the [Wiki page on Problem Statements and Design Goals](https://github.com/eivind88/prm/wiki/Problem-Statements-and-Design-Goals).
 
 ## How?
 Adding and editing projects will open the associated start- and stop-scripts in your editor (as defined by the `$EDITOR` environment variable).
