@@ -21,13 +21,16 @@ _prm()
             return 0
             ;;
         *)
-            if [ -z $com ]; then
-                COMPREPLY=( $(compgen -W "${commands} ${opts}" -- ${cur}) )
-            else
-                COMPREPLY=()
-            fi
-            return 0
-            ;;
+            case $com in
+                active|add|copy|list|rename|start|stop)
+                    COMPREPLY=()
+                    return 0
+                    ;;
+                *)
+                    COMPREPLY=( $(compgen -W "${commands} ${opts}" -- ${cur}) )
+                    return 0
+                    ;;
+            esac
     esac
 
 } &&
