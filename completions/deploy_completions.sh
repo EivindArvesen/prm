@@ -7,7 +7,8 @@ current_shell=$(ps -p $$ | awk '{print $4}' | tail -n 1)
 if [ $(echo "$current_shell" | grep "bash") ]; then
     if [ $(uname -s) = "Darwin" ]; then
         if [ $(brew info bash-completion | tail -n 1 | sed -e 's/^[[:space:]]*//') ]; then
-            bash_completions="$HOME/.bash_completion"
+            bash_completions=$(brew info bash-completion | tail -n 1 | sed -e 's/^[[:space:]]*//')
+            #bash_completions="$HOME/.bash_completion"
         fi
 
     else
@@ -24,10 +25,10 @@ if [ $(echo "$current_shell" | grep "bash") ]; then
     #     mkdir -p "$bash_completions"
     # fi
 
-    cat "completions/complete.bash" > "$bash_completions"
-    #cp -f "completions/complete.bash" "$bash_completions/prm"
-
-    source "$bash_completions" #/prm
+    #cat "completions/complete.bash" > "$bash_completions"
+    yes | cp -f "completions/complete.bash" "$bash_completions/prm"
+    #chmod 755 "$bash_completions/prm"
+    source "$bash_completions/prm" #/prm
 
 elif [ $(echo $current_shell | grep "zsh") ]; then
     echo "zsh support is not yet implemented"

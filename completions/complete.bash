@@ -8,11 +8,6 @@ _prm()
     opts="-h --help -v --version"
     commands="active add copy edit list remove rename start stop"
 
-    if [[ ${cur} == -* ]] ; then
-        COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
-        return 0
-    fi
-
     case $com in
         edit|remove)
             COMPREPLY=( $(compgen -W "$(prm list)" -- ${cur}) )
@@ -26,12 +21,14 @@ _prm()
             return 0
             ;;
         *)
-            COMPREPLY=()
+            if [ -z $com ]; then
+                COMPREPLY=( $(compgen -W "${commands} ${opts}" -- ${cur}) )
+            else
+                COMPREPLY=()
+            fi
             return 0
             ;;
     esac
-
-    COMPREPLY=( $(compgen -W "${commands} ${opts}" -- ${cur}) )
 
 } &&
 complete -F _prm prm
