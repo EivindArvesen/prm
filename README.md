@@ -1,5 +1,7 @@
 # prm
 
+[![Join the chat at https://gitter.im/eivind88/prm](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/eivind88/prm?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [![travis][travis-image]][travis-url]
 [![license][license-image]][license-url]
 [travis-image]: https://api.travis-ci.org/eivind88/prm.svg
