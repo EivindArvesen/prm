@@ -4,7 +4,7 @@
 
 COPY="Written by Eivind Arvesen, 2015."
 VERSION=0.6.0
-SOURCE=$(printf "prm MUST be sourced - not run in a subshell.\ni.e. '. ./prm'\n" && echo " ")
+SOURCE="prm MUST be sourced - not run in a subshell.\ni.e. '. ./prm'\n"
 
 function return_error() {
     # Print error message and return error code
@@ -20,7 +20,7 @@ function return_error() {
 
 # Test if prm is run in subshell or sourced
 if [ "$(basename "${0//-/}")" = "prm.sh" ]; then
-    return_error 1 "$(printf "%s" "$SOURCE")"
+    return_error 1 "$(printf "$SOURCE")"
     exit
 fi
 
@@ -68,7 +68,7 @@ function prm_help() {
     echo "  -v --version             Display version info."
     echo ""
     echo "Please report bugs at https://github.com/eivind88/prm"
-    printf "Remember that %s" "$SOURCE"
+    printf "Remember that $SOURCE"
 }
 
 function prm_usage() {
