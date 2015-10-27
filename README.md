@@ -92,15 +92,17 @@ The prm command line arguments are available in start- and stop-scripts, `$3` be
 
 All available environment variables are described on [this](https://github.com/eivind88/prm/wiki/Environment-variables) Wiki page.
 
-## Usage
-In order to work properly, prm **must** be sourced, *not* run in a subshell; i.e. `. ./prm`.
+## Installation
+To install prm: `git clone https://github.com/eivind88/prm.git`, or download and extract a release .zip.
 
+In order to work properly, prm **must** be sourced, *not* run in a subshell.
 The easiest way to do this is probably to add an alias to prm in your `~/.bashrc` (or wherever you keep your aliases), like so:
 
 ```bash
 alias prm=". path/to/prm.sh"
 ```
 
+## Usage
 From the help option screen:
 
 ```bash
