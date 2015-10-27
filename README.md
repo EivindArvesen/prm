@@ -123,6 +123,10 @@ Options:
 You can set the prm data directory with the `$PRM_PATH` environment variable.
 By default all prm data is written to `~/.prm`.
 
+### Shell completions
+You can install shell completions by running `bash completions/deploy_completions.sh` from the project root.
+Only `bash` is supported for now, but `zsh` completions are under development.
+
 ## Contributing
 Feedback is strongly encouraged. If you run into a bug or would like to see a new feature, please open a new issue. In the case of bugs, please mention what shell they occur under (i.e. `bash` or `zsh`).
 
