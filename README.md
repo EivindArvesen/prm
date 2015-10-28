@@ -14,7 +14,6 @@ A minimal project manager for the terminal.
 ![Demo](https://github.com/eivind88/prm/blob/demo/prm.gif)
 
 This script **must** be sourced, *not* run in a subshell.
-The technical reason for this is succinctly explained in [this](https://en.wikipedia.org/wiki/Source_(command)) Wikipedia article.
 See [usage](#usage) for more information.
 
 At present, prm supports `zsh`, as well as `bash`.
@@ -101,6 +100,8 @@ The easiest way to do this is probably to add an alias to prm in your `~/.bashrc
 ```bash
 alias prm=". path/to/prm.sh"
 ```
+
+The technical reason for this is succinctly explained in [this](https://en.wikipedia.org/wiki/Source_(command)) Wikipedia article.
 
 ## Usage
 From the help option screen:
