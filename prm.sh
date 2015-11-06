@@ -338,7 +338,7 @@ case "$1" in
     stop)
         # Stop project
         if [ -e "$prm_dir/.active-$$.tmp" ]; then
-            . "$prm_dir/$(cat "$prm_dir/.active-$$.tmp")/stop.sh" || return_error 1 "Cannot stop project $project_name: Project has no stop script"
+            . "$prm_dir/$(cat "$prm_dir/.active-$$.tmp")/stop.sh" || return_error 1 "Cannot stop project $PRM_ACTIVE_PROJECT: Project has no stop script"
             echo "Stopping project $(cat "$prm_dir/.active-$$.tmp")"
             rm -f "$prm_dir/.active-$$.tmp"
             cd "$(cat "$prm_dir/.path-$$.tmp")" >/dev/null 2>&1 || return_error 1 "Could not change directory to original path."
