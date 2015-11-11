@@ -78,7 +78,7 @@ For instance, if you'd like some python-based projects to list the number of out
 echo "$((($(conda search --outdated --names-only | wc -l)-1))) outdated packages in env"
 ```
 
-as e.g. `conda-list-outdated.sh` in `$PRM_PATH/.common/` (this environment variable is detailed in [usage](#usage)).
+as e.g. `conda-list-outdated.sh` in `$PRM_DIR/.common/` (this environment variable is detailed in [usage](#usage)).
 You can then load this script in your start- and stop-scripts like so:
 
 ```bash
@@ -123,7 +123,7 @@ Options:
   -v --version             Display version info.
 ```
 
-You can set the prm data directory with the `$PRM_PATH` environment variable.
+You can set the prm data directory with the `$PRM_DIR` environment variable.
 By default all prm data is written to `~/.prm`.
 
 ### Shell completions
