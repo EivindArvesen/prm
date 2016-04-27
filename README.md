@@ -25,6 +25,8 @@ Regrettably, `fish` is not supported, because of syntax incompatibilities.
 See [this issue](https://github.com/eivind88/prm/issues/2) for some details.
 However, Fred Deschenes has made a [port](https://github.com/FredDeschenes/prm-fish) for `fish` that you could check out.
 
+Additionally, Michael Krieger has integrated prm into a [workflow](https://github.com/M-Krieger/prm-alfred) for [Alfred](https://www.alfredapp.com) (OS X).
+
 ## What?
 This program basically lets you CRUD projects. Upon activation, each projects runs its associated start-script; on deactivation, it runs the project stop-script.
 
