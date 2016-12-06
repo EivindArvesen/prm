@@ -56,7 +56,7 @@ load common
 
 @test "add option with arg adds project under Cygwin (Mock)" {
     # prm add <project name>
-    prm_bats_test_cygwin=true
+    prm_use_cygpath=true
     project_name="test-prj"
     run prm add $project_name
     [ "$status" -eq 0 ]
@@ -64,7 +64,7 @@ load common
     [ $(echo "${lines[1]}" | grep "cygpath.exe: command not found") ]
     [ "${lines[2]}" = "Added project $project_name" ]
     rm -rf "$prm_dir/$project_name"
-    unset $prm_bats_test_cygwin
+    unset $prm_use_cygpath
 }
 
 @test "add option with several args adds several projects" {
@@ -110,7 +110,7 @@ load common
 
 @test "edit option succeeds if project exists under Cygwin (Mock)" {
     # prm copy <old> <new>
-    prm_bats_test_cygwin=true
+    prm_use_cygpath=true
     project_name=exists
     mkdir -p "$prm_dir/$project_name"
     touch "$prm_dir/$project_name/start.sh" "$prm_dir/$project_name/stop.sh"
@@ -120,7 +120,7 @@ load common
     [ $(echo "${lines[1]}" | grep "cygpath.exe: command not found") ]
     [ "${lines[2]}" = "Copied project $project_name to new-prj" ]
     rm -rf "$prm_dir/$project_name" "$prm_dir/new-prj"
-    unset $prm_bats_test_cygwin
+    unset $prm_use_cygpath
 }
 
 @test "copy option fails when no new name is given" {
@@ -153,7 +153,7 @@ load common
 
 @test "edit option succeeds if project exists under Cygwin (Mock)" {
     # prm edit <project name>
-    prm_bats_test_cygwin=true
+    prm_use_cygpath=true
     project_name=exists
     mkdir -p "$prm_dir/$project_name"
     touch "$prm_dir/$project_name/start.sh" "$prm_dir/$project_name/stop.sh"
@@ -163,7 +163,7 @@ load common
     [ $(echo "${lines[1]}" | grep "cygpath.exe: command not found") ]
     [ "${lines[2]}" = "Edited project $project_name" ]
     rm -rf "$prm_dir/$project_name"
-    unset $prm_bats_test_cygwin
+    unset $prm_use_cygpath
 }
 
 @test "edit option succeeds if several project exist" {

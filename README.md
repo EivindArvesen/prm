@@ -20,6 +20,9 @@ At present, prm supports `zsh`, as well as `bash`.
 For more information, see the [Wiki page on Zsh support](https://github.com/eivind88/prm/wiki/Zsh-support).
 
 Ostensibly, prm also [works](https://github.com/eivind88/prm/issues/27) under [Cygwin](https://cygwin.com).
+If your `$EDITOR` is set to a program external to Cygwin (ex: Sublime Text), you
+might want to add `export prm_use_cygpath=true` to your `.bashrc`/`.zshrc` to send
+the native Windows path to the editor.
 
 Regrettably, `fish` is not supported, because of syntax incompatibilities.
 See [this issue](https://github.com/eivind88/prm/issues/2) for some details.

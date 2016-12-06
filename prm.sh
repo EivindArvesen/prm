@@ -119,21 +119,13 @@ function check_project_name() {
 
 function edit_scripts() {
     # Open project start- and stop- scripts in $EDITOR
-    if [ $CI ] && [ $prm_bats_test_cygwin ]; then
-        uname="CYGWIN_NT-5.2-WOW64"
+    if [ $prm_use_cygpath ]; then
+        # Allow Cygwin users to use the full Windows path
+        # (ex: C:\\Users\\...) when editing the script.
+        $EDITOR `cygpath.exe -d "$prm_dir/$1/start.sh"` && $EDITOR `cygpath.exe -d "$prm_dir/$1/stop.sh"`
     else
-        uname=$(uname -s)
+        $EDITOR "$prm_dir/$1/start.sh" && $EDITOR "$prm_dir/$1/stop.sh"
     fi
-    case "$uname" in
-        CYGWIN*|MINGW32*|MSYS*)
-            #Cygwin
-            $EDITOR `cygpath.exe -d "$prm_dir/$1/start.sh"` && $EDITOR `cygpath.exe -d "$prm_dir/$1/stop.sh"`
-            ;;
-        *)
-            #OS X/Linux/BSD/etc.
-            $EDITOR "$prm_dir/$1/start.sh" && $EDITOR "$prm_dir/$1/stop.sh"
-            ;;
-    esac
 }
 
 function cleanup() {
