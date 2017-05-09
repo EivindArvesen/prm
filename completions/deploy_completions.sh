@@ -4,7 +4,6 @@
 
 current_shell=$(ps -p $$ | awk '{print $4}' | tail -n 1)
 
-
 if [ $(echo "$current_shell" | grep "bash") ]; then
     if [ $(uname -s) = "Darwin" ]; then
         if [ $(brew info bash-completion | tail -n 1 | sed -e 's/^[[:space:]]*//') ]; then
@@ -33,13 +32,10 @@ if [ $(echo "$current_shell" | grep "bash") ]; then
         #source "$bash_completions/prm" #/prm
     fi
 
-
 elif [ $(echo $current_shell | grep "zsh") ]; then
-    echo "zsh support is not yet implemented"
     #source "$zsh_completions"/prm
     zsh_completions="/usr/local/share/zsh/site-functions"
     cp -rf "completions/complete.zsh" "$zsh_completions/_prm"
-
 
 else
     echo "Shell $current_shell is not supported"

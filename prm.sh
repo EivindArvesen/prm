@@ -244,7 +244,7 @@ case "$1" in
         # Remove project
         if [ "$2" ]; then
             for argument in "${@:2}"; do
-                if [ -e "$prm_dir/.active-$$.tmp" ] && [ "$(cat "$prm_dir/.active-$$.tmp")" == "$argument" ]; then
+                if [ -e "$prm_dir/.active-$$.tmp" ] && [ "$(cat "$prm_dir/.active-$$.tmp")" = "$argument" ]; then
                     return_error 1 "Stop project $argument before trying to remove it"
                     return 1
                 else
@@ -264,7 +264,7 @@ case "$1" in
         ;;
     rename)
         # Rename project
-        if [ -e "$prm_dir/.active-$$.tmp" ] && [ "$(cat "$prm_dir/.active-$$.tmp")" == "$2" ]; then
+        if [ -e "$prm_dir/.active-$$.tmp" ] && [ "$(cat "$prm_dir/.active-$$.tmp")" = "$2" ]; then
             return_error 1 "Stop project $2 before trying to rename it"
             return 1
         else
@@ -296,7 +296,7 @@ case "$1" in
         # Start project
         if [ "$2" ]; then
             if [ -d "$prm_dir/$2" ]; then
-                if [ -e "$prm_dir/.active-$$.tmp" ] && [ "$(cat "$prm_dir/.active-$$.tmp")" == "$2" ]; then
+                if [ -e "$prm_dir/.active-$$.tmp" ] && [ "$(cat "$prm_dir/.active-$$.tmp")" = "$2" ]; then
                     return_error 1 "Project $2 is already active"
                     return 1
                 else
