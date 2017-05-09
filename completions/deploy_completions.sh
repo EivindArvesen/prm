@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env bash
 
 # Copyright (c) 2015 Eivind Arvesen. All Rights Reserved.
 
