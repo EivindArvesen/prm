@@ -1,13 +1,8 @@
 # prm
-[![travis][travis-image]][travis-url]
-[![license][license-image]][license-url]
-[![gitter][gitter-image]][gitter-url]
-[travis-image]: https://api.travis-ci.org/eivind88/prm.svg
-[travis-url]: https://travis-ci.org/eivind88/prm
-[license-image]: http://img.shields.io/badge/license-BSD3-brightgreen.svg
-[license-url]: https://github.com/eivind88/prm/blob/master/LICENSE.txt
-[gitter-image]: https://img.shields.io/badge/gitter-join%20chat-brightgreen.svg
-[gitter-url]: https://gitter.im/eivind88/prm
+
+[![TravisCI Status](https://api.travis-ci.org/eivind88/prm.svg)](https://travis-ci.org/eivind88/prm)
+[![License](http://img.shields.io/badge/license-BSD3-brightgreen.svg)](https://github.com/eivind88/prm/blob/master/LICENSE.txt)
+[![Gitter](https://img.shields.io/badge/gitter-join%20chat-brightgreen.svg)][https://gitter.im/eivind88/prm]
 
 A minimal project manager for the terminal.
 
