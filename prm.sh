@@ -144,130 +144,46 @@ function cleanup() {
     cd - >/dev/null 2>&1 || return_error 1 "Previous directory not available."
 }
 
-case "$1" in
-    # Test args
-    active)
-        # List active project "instances"
-        cd "$prm_dir" >/dev/null 2>&1 || return_error 1 "Directory $prm_dir does not exist."
-        while IFS= read -r -d '' instance; do
-            pid=${instance%.*}
-            pid=${pid##*-}
-            if (ps -p "$pid" > /dev/null); then
-                echo "$pid    $(cat "$instance")"
-            fi
-        done < <(find . -maxdepth 1 -name '.active*' -print0 -quit)
-        cd - >/dev/null 2>&1 || return_error 1 "Previous directory not available."
-        ;;
-    add)
-        # Add project
-        if [ "$2" ]; then
-            for argument in "${@:2}"; do
-                if [ -d "$prm_dir/$argument" ]; then
-                    return_error 1 "Project $argument already exists"
-                    return 1
-                else
-                    check_project_name "$argument" || return
-                    check_editor || return
-                    mkdir -p "$prm_dir/$argument"
-                    printf "#!/usr/bin/env bash\n\n# This script will run when STARTING the project \"%s\"\n# Here you might want to cd into your project directory, activate virtualenvs, etc.\n\n# The currently active project is available via \$PRM_ACTIVE_PROJECT\n# Command line arguments can be used, \$3 would be the first argument after your project name.\n\n" "$argument" > "$prm_dir/$argument/start.sh"
-                    printf "#!/usr/bin/env bash\n\n# This script will run when STOPPING the project \"%s\"\n# Here you might want to deactivate virtualenvs, clean up temporary files, etc.\n\n# The currently active project is available via \$PRM_ACTIVE_PROJECT\n# Command line arguments can be used, \$3 would be the first argument after your project name.\n\n" "$argument" > "$prm_dir/$argument/stop.sh"
-                    edit_scripts $argument
-                    echo "Added project $argument"
+function prm_run() {
+    # Handle args + main functionality
+    case "$1" in
+        # Test args
+        active)
+            # List active project "instances"
+            cd "$prm_dir" >/dev/null 2>&1 || return_error 1 "Directory $prm_dir does not exist."
+            while IFS= read -r -d '' instance; do
+                pid=${instance%.*}
+                pid=${pid##*-}
+                if (ps -p "$pid" > /dev/null); then
+                    echo "$pid    $(cat "$instance")"
                 fi
-            done
-        else
-            return_error 1 "No name given"
-            return 1
-        fi
-        ;;
-    copy)
-        # Copy project
-        if [ "$2" ]; then
-            if [ ! -d "$prm_dir/$2" ]; then
-                return_error 1 "$2: No such project"
-                return 1
-            else
-                if [ "$3" ]; then
-                    if [ -d "$prm_dir/$3" ]; then
-                        return_error 1 "Project $3 already exists"
-                        return 1
-                    else
-                        check_project_name "$3" || return
-                        check_editor || return
-                        cp -r "$prm_dir/$2" "$prm_dir/$3"
-                        sed -i -e "s/\"$2\"/\"$3\"/g" $prm_dir/$3/*.sh
-                        edit_scripts $3
-                        echo "Copied project $2 to $3"
-                    fi
-                else
-                    return_error 1 "No new name given"
-                    return 1
-                fi
-            fi
-        else
-            return_error 1 "No name given"
-            return 1
-        fi
-        ;;
-    edit)
-        # Edit project
-        if [ "$2" ]; then
-            for argument in "${@:2}"; do
-                if [ -d "$prm_dir/$argument" ]; then
-                    check_editor || return
-                    edit_scripts $argument
-                    echo "Edited project $argument"
-                else
-                    return_error 1 "$argument: No such project"
-                    return 1
-                fi
-            done
-        else
-            return_error 1 "No name given"
-            return 1
-        fi
-        ;;
-    list)
-        # List projects
-        if [ ! "$(find "$prm_dir" -type d | wc -l)" -gt 2 ]; then
-            return_error 1 "No projects exist"
-            return 1
-        else
-            cd "$prm_dir/" >/dev/null 2>&1 || return_error 1 "Directory $prm_dir does not exist."
-            for active in ./*; do
-                basename "$active"
-            done
+            done < <(find . -maxdepth 1 -name '.active*' -print0 -quit)
             cd - >/dev/null 2>&1 || return_error 1 "Previous directory not available."
-        fi
-        ;;
-    remove)
-        # Remove project
-        if [ "$2" ]; then
-            for argument in "${@:2}"; do
-                if [ -e "$prm_dir/.active-$$.tmp" ] && [ "$(cat "$prm_dir/.active-$$.tmp")" = "$argument" ]; then
-                    return_error 1 "Stop project $argument before trying to remove it"
-                    return 1
-                else
+            ;;
+        add)
+            # Add project
+            if [ "$2" ]; then
+                for argument in "${@:2}"; do
                     if [ -d "$prm_dir/$argument" ]; then
-                        rm -rf "${prm_dir:?}/$argument/"
-                        echo "Removed project $argument"
-                    else
-                        return_error 1 "$argument: No such project"
+                        return_error 1 "Project $argument already exists"
                         return 1
+                    else
+                        check_project_name "$argument" || return
+                        check_editor || return
+                        mkdir -p "$prm_dir/$argument"
+                        printf "#!/usr/bin/env bash\n\n# This script will run when STARTING the project \"%s\"\n# Here you might want to cd into your project directory, activate virtualenvs, etc.\n\n# The currently active project is available via \$PRM_ACTIVE_PROJECT\n# Command line arguments can be used, \$3 would be the first argument after your project name.\n\n" "$argument" > "$prm_dir/$argument/start.sh"
+                        printf "#!/usr/bin/env bash\n\n# This script will run when STOPPING the project \"%s\"\n# Here you might want to deactivate virtualenvs, clean up temporary files, etc.\n\n# The currently active project is available via \$PRM_ACTIVE_PROJECT\n# Command line arguments can be used, \$3 would be the first argument after your project name.\n\n" "$argument" > "$prm_dir/$argument/stop.sh"
+                        edit_scripts $argument
+                        echo "Added project $argument"
                     fi
-                fi
-            done
-        else
-            return_error 1 "No name given"
-            return 1
-        fi
-        ;;
-    rename)
-        # Rename project
-        if [ -e "$prm_dir/.active-$$.tmp" ] && [ "$(cat "$prm_dir/.active-$$.tmp")" = "$2" ]; then
-            return_error 1 "Stop project $2 before trying to rename it"
-            return 1
-        else
+                done
+            else
+                return_error 1 "No name given"
+                return 1
+            fi
+            ;;
+        copy)
+            # Copy project
             if [ "$2" ]; then
                 if [ ! -d "$prm_dir/$2" ]; then
                     return_error 1 "$2: No such project"
@@ -278,8 +194,12 @@ case "$1" in
                             return_error 1 "Project $3 already exists"
                             return 1
                         else
-                            mv "$prm_dir/$2" "$prm_dir/$3"
-                            echo "Renamed project $2 $3"
+                            check_project_name "$3" || return
+                            check_editor || return
+                            cp -r "$prm_dir/$2" "$prm_dir/$3"
+                            sed -i -e "s/\"$2\"/\"$3\"/g" $prm_dir/$3/*.sh
+                            edit_scripts $3
+                            echo "Copied project $2 to $3"
                         fi
                     else
                         return_error 1 "No new name given"
@@ -290,80 +210,165 @@ case "$1" in
                 return_error 1 "No name given"
                 return 1
             fi
-        fi
-        ;;
-    start)
-        # Start project
-        if [ "$2" ]; then
-            if [ -d "$prm_dir/$2" ]; then
-                if [ -e "$prm_dir/.active-$$.tmp" ] && [ "$(cat "$prm_dir/.active-$$.tmp")" = "$2" ]; then
-                    return_error 1 "Project $2 is already active"
-                    return 1
-                else
-                    if [ ! -e "$prm_dir/.path-$$.tmp" ]; then
-                        pwd > "$prm_dir/.path-$$.tmp"
-                    fi
-                    if [ -e "$prm_dir/.active-$$.tmp" ]; then
-                        . "$prm_dir/$(cat "$prm_dir/.active-$$.tmp")/stop.sh"
-                        PRM_ACTIVE_PROJECT=""
-                    fi
-                    if [ -e "$prm_dir/$2/start.sh" ] && [ -e "$prm_dir/$2/stop.sh" ]; then
-                        echo "$2" > "$prm_dir/.active-$$.tmp"
-                        set_prompt_start "$2"
-                        echo "Starting project $2"
-                        . "$prm_dir/$2/start.sh"
-                        PRM_ACTIVE_PROJECT=$2
+            ;;
+        edit)
+            # Edit project
+            if [ "$2" ]; then
+                for argument in "${@:2}"; do
+                    if [ -d "$prm_dir/$argument" ]; then
+                        check_editor || return
+                        edit_scripts $argument
+                        echo "Edited project $argument"
                     else
-                        return_error 1 "Cannot start project $2: Project has no scripts"
+                        return_error 1 "$argument: No such project"
                         return 1
                     fi
-                fi
+                done
             else
-                return_error 1 "$2: No such project"
+                return_error 1 "No name given"
                 return 1
             fi
-        else
-            return_error 1 "No name given"
-            return 1
-        fi
-        ;;
-    stop)
-        # Stop project
-        if [ -e "$prm_dir/.active-$$.tmp" ]; then
-            . "$prm_dir/$(cat "$prm_dir/.active-$$.tmp")/stop.sh" || return_error 1 "Cannot stop project $PRM_ACTIVE_PROJECT: Project has no stop script"
-            echo "Stopping project $(cat "$prm_dir/.active-$$.tmp")"
-            rm -f "$prm_dir/.active-$$.tmp"
-            cd "$(cat "$prm_dir/.path-$$.tmp")" >/dev/null 2>&1 || return_error 1 "Could not change directory to original path."
-            rm -f "$prm_dir/.path-$$.tmp"
-            set_prompt_finish
-            rm -f "$prm_dir/.prompt-$$.tmp"
-            PRM_ACTIVE_PROJECT=""
-        else
-            return_error 1 "No active project"
-            return 1
-        fi
-        ;;
-    -h|--help)
-        # Help-Screen
-        prm_help
-        ;;
-    -v|--version)
-        # Version-Screen
-        echo "prm $VERSION."
-        echo "$COPY"
-        ;;
-    *)
-        # Anything else
-        if [ -z "$1" ]; then
-            # Bare command
+            ;;
+        list)
+            # List projects
+            if [ ! "$(find "$prm_dir" -type d | wc -l)" -gt 2 ]; then
+                return_error 1 "No projects exist"
+                return 1
+            else
+                cd "$prm_dir/" >/dev/null 2>&1 || return_error 1 "Directory $prm_dir does not exist."
+                for active in ./*; do
+                    basename "$active"
+                done
+                cd - >/dev/null 2>&1 || return_error 1 "Previous directory not available."
+            fi
+            ;;
+        remove)
+            # Remove project
+            if [ "$2" ]; then
+                for argument in "${@:2}"; do
+                    if [ -e "$prm_dir/.active-$$.tmp" ] && [ "$(cat "$prm_dir/.active-$$.tmp")" = "$argument" ]; then
+                        return_error 1 "Stop project $argument before trying to remove it"
+                        return 1
+                    else
+                        if [ -d "$prm_dir/$argument" ]; then
+                            rm -rf "${prm_dir:?}/$argument/"
+                            echo "Removed project $argument"
+                        else
+                            return_error 1 "$argument: No such project"
+                            return 1
+                        fi
+                    fi
+                done
+            else
+                return_error 1 "No name given"
+                return 1
+            fi
+            ;;
+        rename)
+            # Rename project
+            if [ -e "$prm_dir/.active-$$.tmp" ] && [ "$(cat "$prm_dir/.active-$$.tmp")" = "$2" ]; then
+                return_error 1 "Stop project $2 before trying to rename it"
+                return 1
+            else
+                if [ "$2" ]; then
+                    if [ ! -d "$prm_dir/$2" ]; then
+                        return_error 1 "$2: No such project"
+                        return 1
+                    else
+                        if [ "$3" ]; then
+                            if [ -d "$prm_dir/$3" ]; then
+                                return_error 1 "Project $3 already exists"
+                                return 1
+                            else
+                                mv "$prm_dir/$2" "$prm_dir/$3"
+                                echo "Renamed project $2 $3"
+                            fi
+                        else
+                            return_error 1 "No new name given"
+                            return 1
+                        fi
+                    fi
+                else
+                    return_error 1 "No name given"
+                    return 1
+                fi
+            fi
+            ;;
+        start)
+            # Start project
+            if [ "$2" ]; then
+                if [ -d "$prm_dir/$2" ]; then
+                    if [ -e "$prm_dir/.active-$$.tmp" ] && [ "$(cat "$prm_dir/.active-$$.tmp")" = "$2" ]; then
+                        return_error 1 "Project $2 is already active"
+                        return 1
+                    else
+                        if [ ! -e "$prm_dir/.path-$$.tmp" ]; then
+                            pwd > "$prm_dir/.path-$$.tmp"
+                        fi
+                        if [ -e "$prm_dir/.active-$$.tmp" ]; then
+                            . "$prm_dir/$(cat "$prm_dir/.active-$$.tmp")/stop.sh"
+                            PRM_ACTIVE_PROJECT=""
+                        fi
+                        if [ -e "$prm_dir/$2/start.sh" ] && [ -e "$prm_dir/$2/stop.sh" ]; then
+                            echo "$2" > "$prm_dir/.active-$$.tmp"
+                            set_prompt_start "$2"
+                            echo "Starting project $2"
+                            . "$prm_dir/$2/start.sh"
+                            PRM_ACTIVE_PROJECT=$2
+                        else
+                            return_error 1 "Cannot start project $2: Project has no scripts"
+                            return 1
+                        fi
+                    fi
+                else
+                    return_error 1 "$2: No such project"
+                    return 1
+                fi
+            else
+                return_error 1 "No name given"
+                return 1
+            fi
+            ;;
+        stop)
+            # Stop project
+            if [ -e "$prm_dir/.active-$$.tmp" ]; then
+                . "$prm_dir/$(cat "$prm_dir/.active-$$.tmp")/stop.sh" || return_error 1 "Cannot stop project $PRM_ACTIVE_PROJECT: Project has no stop script"
+                echo "Stopping project $(cat "$prm_dir/.active-$$.tmp")"
+                rm -f "$prm_dir/.active-$$.tmp"
+                cd "$(cat "$prm_dir/.path-$$.tmp")" >/dev/null 2>&1 || return_error 1 "Could not change directory to original path."
+                rm -f "$prm_dir/.path-$$.tmp"
+                set_prompt_finish
+                rm -f "$prm_dir/.prompt-$$.tmp"
+                PRM_ACTIVE_PROJECT=""
+            else
+                return_error 1 "No active project"
+                return 1
+            fi
+            ;;
+        -h|--help)
+            # Help-Screen
             prm_help
-        else
-            # Error-Screen
-            return_error 1 "prm: illegal option -- $1 (see \"prm --help\" for help)"
-            prm_usage
-            return 1
-        fi
-        ;;
-esac
+            ;;
+        -v|--version)
+            # Version-Screen
+            echo "prm $VERSION."
+            echo "$COPY"
+            ;;
+        *)
+            # Anything else
+            if [ -z "$1" ]; then
+                # Bare command
+                prm_help
+            else
+                # Error-Screen
+                return_error 1 "prm: illegal option -- $1 (see \"prm --help\" for help)"
+                prm_usage
+                return 1
+            fi
+            ;;
+    esac
 
-cleanup
+    cleanup
+}
+
+prm_run "$@"
