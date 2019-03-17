@@ -103,6 +103,14 @@ alias prm=". path/to/prm.sh"
 
 The technical reason for this is succinctly explained in [this](https://en.wikipedia.org/wiki/Source_(command)) Wikipedia article.
 
+You must set your `$EDITOR` env-var, e.g.
+
+```bash
+export EDITOR=nano
+```
+
+in your rc-file (like `.bashrc` or `.zshrc`).
+
 ## Usage
 From the help option screen:
 
