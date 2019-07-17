@@ -1,5 +1,6 @@
 #!/usr/bin/env bats
 
+# Load common functionality
 load common
 
 # Make prm internals available in tests

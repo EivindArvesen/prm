@@ -1,5 +1,6 @@
 #!/usr/bin/env bats
 
+# Load common functionality
 load common
 
 @test "running prm in a subshell (not sourcing) prints an error" {
