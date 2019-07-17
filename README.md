@@ -1,26 +1,26 @@
 # prm
 
-[![TravisCI Status](https://api.travis-ci.org/eivind88/prm.svg)](https://travis-ci.org/eivind88/prm)
-[![License](http://img.shields.io/badge/license-BSD3-brightgreen.svg)](https://github.com/eivind88/prm/blob/master/LICENSE.txt)
-[![Gitter](https://img.shields.io/badge/gitter-join%20chat-brightgreen.svg)](https://gitter.im/eivind88/prm)
+[![TravisCI Status](https://api.travis-ci.org/EivindArvesen/prm.svg)](https://travis-ci.org/EivindArvesen/prm)
+[![License](http://img.shields.io/badge/license-BSD3-brightgreen.svg)](https://github.com/EivindArvesen/prm/blob/master/LICENSE.txt)
+[![Gitter](https://img.shields.io/badge/gitter-join%20chat-brightgreen.svg)](https://gitter.im/EivindArvesen/prm)
 
 A minimal project manager for the terminal.
 
-![Demo](https://github.com/eivind88/prm/blob/demo/prm.gif)
+![Demo](https://github.com/EivindArvesen/prm/blob/demo/prm.gif)
 
 This script **must** be sourced, *not* run in a subshell.
 See [usage](#usage) for more information.
 
 At present, prm supports `zsh`, as well as `bash`.
-For more information, see the [Wiki page on Zsh support](https://github.com/eivind88/prm/wiki/Zsh-support).
+For more information, see the [Wiki page on Zsh support](https://github.com/EivindArvesen/prm/wiki/Zsh-support).
 
-Ostensibly, prm also [works](https://github.com/eivind88/prm/issues/27) under [Cygwin](https://cygwin.com).
+Ostensibly, prm also [works](https://github.com/EivindArvesen/prm/issues/27) under [Cygwin](https://cygwin.com).
 If your `$EDITOR` is set to a program external to Cygwin (ex: Sublime Text), you
 might want to add `export prm_use_cygpath=true` to your `.bashrc`/`.zshrc` to send
 the native Windows path to the editor.
 
 Regrettably, `fish` is not supported, because of syntax incompatibilities.
-See [this issue](https://github.com/eivind88/prm/issues/2) for some details.
+See [this issue](https://github.com/EivindArvesen/prm/issues/2) for some details.
 However, Fred Deschenes has made a [port](https://github.com/FredDeschenes/prm-fish) for `fish` that you could check out.
 
 Additionally, Michael Krieger has integrated prm into a [workflow](https://github.com/M-Krieger/prm-alfred) for [Alfred](https://www.alfredapp.com) (OS X).
@@ -37,7 +37,7 @@ Currently active projects can be listed (as described in [usage](#usage)).
 
 Dead project instances (i.e. project instances that are still active on shell exit) will be automatically deactivated the next time you run prm – without running their stop-scripts.
 
-For the motivation behind prm, please see the [Wiki page on Problem Statements and Design Goals](https://github.com/eivind88/prm/wiki/Problem-Statements-and-Design-Goals).
+For the motivation behind prm, please see the [Wiki page on Problem Statements and Design Goals](https://github.com/EivindArvesen/prm/wiki/Problem-Statements-and-Design-Goals).
 
 ## How?
 Adding and editing projects will open the associated start- and stop-scripts in your editor (as defined by the `$EDITOR` environment variable).
@@ -89,10 +89,10 @@ Additionally, if you need the name of the currently active project, this is avai
 
 The prm command line arguments are available in start- and stop-scripts, `$3` being the first argument after your project name.
 
-All available environment variables are described on [this](https://github.com/eivind88/prm/wiki/Environment-variables) Wiki page.
+All available environment variables are described on [this](https://github.com/EivindArvesen/prm/wiki/Environment-variables) Wiki page.
 
 ## Installation
-To install prm: `git clone https://github.com/eivind88/prm.git`, or download and extract a release .zip.
+To install prm: `git clone https://github.com/EivindArvesen/prm.git`, or download and extract a release .zip.
 
 In order to work properly, prm **must** be sourced, *not* run in a subshell.
 The easiest way to do this is probably to add an alias to prm in your `~/.bashrc` (or wherever you keep your aliases), like so:
@@ -133,9 +133,9 @@ Only `bash` is supported for now, but `zsh` completions are under development.
 ## Contributing
 Feedback is strongly encouraged. If you run into a bug or would like to see a new feature, please open a new issue. In the case of bugs, please mention what shell they occur under (i.e. `bash` or `zsh`).
 
-Contributions in the form of code (e.g. implementing new features, bug-fixes) are also appreciated. For information about this, see the [Wiki page on Contributing](https://github.com/eivind88/prm/wiki/Contributing).
+Contributions in the form of code (e.g. implementing new features, bug-fixes) are also appreciated. For information about this, see the [Wiki page on Contributing](https://github.com/EivindArvesen/prm/wiki/Contributing).
 
-Pull requests that do not pass the CI [tests](https://github.com/eivind88/prm/wiki/Contributing/_edit#tests) will not be merged.
+Pull requests that do not pass the CI [tests](https://github.com/EivindArvesen/prm/wiki/Contributing/_edit#tests) will not be merged.
 
 ## License
 This software is released under the terms of the 3-clause New BSD License. See the [license](LICENSE.txt) file for details.

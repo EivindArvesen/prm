@@ -67,7 +67,7 @@ function prm_help() {
     echo "  -h --help                Display this information."
     echo "  -v --version             Display version info."
     echo ""
-    echo "Please report bugs at https://github.com/eivind88/prm"
+    echo "Please report bugs at https://github.com/EivindArvesen/prm"
     printf "Remember that $SOURCE"
 }
 
