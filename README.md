@@ -103,6 +103,14 @@ alias prm=". path/to/prm.sh"
 
 The technical reason for this is succinctly explained in [this](https://en.wikipedia.org/wiki/Source_(command)) Wikipedia article.
 
+You must set your `$EDITOR` env-var, e.g.
+
+```bash
+export EDITOR=nano
+```
+
+in your rc-file (like `.bashrc` or `.zshrc`).
+
 ## Usage
 From the help option screen:
 
@@ -136,6 +144,15 @@ Feedback is strongly encouraged. If you run into a bug or would like to see a ne
 Contributions in the form of code (e.g. implementing new features, bug-fixes) are also appreciated. For information about this, see the [Wiki page on Contributing](https://github.com/EivindArvesen/prm/wiki/Contributing).
 
 Pull requests that do not pass the CI [tests](https://github.com/EivindArvesen/prm/wiki/Contributing/_edit#tests) will not be merged.
+
+### Tests
+The project tests can be found in the `tests` directory.
+
+If you have Bats installed, you can run all tests (for both `bash` and `zsh`) locally by issuing `bash tests/run-tests.sh` in the root project folder of prm.
+
+Unit tests can be found in [`tests/internals.bats`](/tests/internals.bats).
+
+Integration tests can be found in [`tests/prm.bats`](/tests/prm.bats).
 
 ## License
 This software is released under the terms of the 3-clause New BSD License. See the [license](LICENSE.txt) file for details.
