@@ -12,3 +12,6 @@ uninstall:
 	@rm -f $(PREFIX)/bin/prm.sh
 	@echo "prm removed from $(Prefix)/BIn"
 	@echo "Remember to remove the alias from your shell configuration file."
+
+test:
+	@bash tests/run-tests.sh
