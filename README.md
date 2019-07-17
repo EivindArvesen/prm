@@ -148,7 +148,7 @@ Pull requests that do not pass the CI [tests](https://github.com/EivindArvesen/p
 ### Tests
 The project tests can be found in the `tests` directory.
 
-If you have Bats installed, you can run all tests (for both `bash` and `zsh`) locally by issuing `bash tests/run-tests.sh` in the root project folder of prm.
+If you have [Bats](https://github.com/sstephenson/bats) installed, you can run all tests (for both `bash` and `zsh`) locally by issuing `bash tests/run-tests.sh` in the root project folder of prm.
 
 Unit tests can be found in [`tests/internals.bats`](/tests/internals.bats).
 

@@ -52,7 +52,7 @@ EOF
 echo
     for test_file in "$test_folder/"*.bats; do
         echo "Executing the $(basename $test_file) test file ---"
-        bats $test_file
+        bats "$test_file"
         echo
         rm -rf ./tmp-prm-home
     done
