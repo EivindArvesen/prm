@@ -150,9 +150,11 @@ The project tests can be found in the `tests` directory.
 
 If you have [Bats](https://github.com/sstephenson/bats) installed, you can run all tests (for both `bash` and `zsh`) locally by issuing `bash tests/run-tests.sh` in the root project folder of prm.
 
-Unit tests can be found in [`tests/internals.bats`](/tests/internals.bats).
+Unit tests can be found in [`tests/units.bats`](/tests/internals.bats).
 
-Integration tests can be found in [`tests/prm.bats`](/tests/prm.bats).
+End-to-end tests can be found in [`tests/e2e.bats`](/tests/prm.bats).
+
+You can run both by via `make test`.
 
 ## License
 This software is released under the terms of the 3-clause New BSD License. See the [license](LICENSE.txt) file for details.
